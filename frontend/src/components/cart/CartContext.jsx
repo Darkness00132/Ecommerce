@@ -1,0 +1,124 @@
+import { RiDeleteBin3Line } from "react-icons/ri";
+import { useQuery } from "@tanstack/react-query";
+import axiosInstance from "../../axiosInstance/axiosInstance";
+import useCart from "../../store/useCart.js";
+
+const CartContext = () => {
+  const guestID = useCart((state) => state.guestID);
+  const setCart = useCart((state) => state.setCart);
+  const cart = useCart((state) => state.cart);
+  const removeProduct = useCart((state) => state.removeProduct);
+  const removingProduct = useCart((state) => state.removingProduct);
+  const isUpdatingQuantity = useCart((state) => state.isUpdatingQuantity);
+  const updateQuantity = useCart((state) => state.updateQuantity);
+
+  const { isLoading } = useQuery({
+    queryKey: ["cart"],
+    queryFn: async () => {
+      const response = await axiosInstance.get("/cart/?guestID=" + guestID);
+      const cart = response.data.cart;
+      setCart(cart);
+      return cart.products;
+    },
+    onError: (e) => {
+      console.log(e);
+    },
+  });
+  if (isLoading) return <p>Loading...</p>;
+  return (
+    <div className="space-y-4">
+      {cart?.products.map((cartProduct, index) => (
+        <div
+          key={index}
+          className="flex border border-base-200 rounded-xl shadow-sm overflow-hidden"
+        >
+          {/* Image - fixed width, full height of the card */}
+          <div className="w-[120px] flex-shrink-0">
+            <img
+              src={cartProduct.image}
+              alt={cartProduct.name}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Info section */}
+          <div className="flex-1 p-4 flex flex-col justify-between">
+            <div className="flex justify-between items-start">
+              <div>
+                <h3 className="text-base font-semibold">{cartProduct.name}</h3>
+                <div className="mt-2 text-sm text-base-content/70 space-y-1">
+                  <p>Size: {cartProduct.size}</p>
+                  <p>Color: {cartProduct.color}</p>
+                </div>
+              </div>
+
+              {/* Price & Delete */}
+              <div className="text-right">
+                <p className="text-sm font-bold">
+                  ${cartProduct.priceAtPurchaseTime}
+                </p>
+                <button
+                  className={`text-error mt-2 hover:text-error-content ${
+                    removingProduct ? "opacity-50 pointer-events-none" : ""
+                  }`}
+                  onClick={async () => {
+                    await removeProduct({
+                      productID: cartProduct.product,
+                      size: cartProduct.size,
+                      color: cartProduct.color,
+                    });
+                  }}
+                  disabled={removingProduct}
+                >
+                  <RiDeleteBin3Line size={22} />
+                </button>
+              </div>
+            </div>
+
+            {/* Quantity */}
+            <div className="flex items-center gap-2 mt-4">
+              <button
+                className={`btn btn-xs btn-outline ${
+                  isUpdatingQuantity ? "btn-disabled" : ""
+                }`}
+                disabled={isUpdatingQuantity}
+                onClick={async () => {
+                  if (cartProduct.quantity === 1) return;
+                  await updateQuantity({
+                    productID: cartProduct.product,
+                    size: cartProduct.size,
+                    color: cartProduct.color,
+                    quantity: -1,
+                  });
+                }}
+              >
+                -
+              </button>
+              <span className="text-sm font-medium">
+                {cartProduct.quantity}
+              </span>
+              <button
+                className={`btn btn-xs btn-outline ${
+                  isUpdatingQuantity ? "btn-disabled" : ""
+                }`}
+                disabled={isUpdatingQuantity}
+                onClick={async () => {
+                  await updateQuantity({
+                    productID: cartProduct.product,
+                    size: cartProduct.size,
+                    color: cartProduct.color,
+                    quantity: +1,
+                  });
+                }}
+              >
+                +
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default CartContext;

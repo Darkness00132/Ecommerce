@@ -1,0 +1,88 @@
+const express = require("express");
+const path = require("path");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const tokens = require("./utils/csrfTokens.js");
+require("dotenv").config();
+
+const usersRoute = require("./routes/user.route.js");
+const productsRoute = require("./routes/product.route.js");
+const cartRoute = require("./routes/cart.route.js");
+const checkoutRoute = require("./routes/checkout.route.js");
+const orderRoute = require("./routes/order.model.js");
+const adminRoute = require("./routes/admin.route.js");
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser(process.env.SECRET_COOKIE));
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
+app.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
+
+// MongoDB connection
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+    process.exit(1);
+  });
+
+// Route to fetch CSRF secret + token
+app.get("/api/csrf-token", (req, res) => {
+  const secret = tokens.secretSync();
+  const token = tokens.create(secret);
+  res.cookie("CSRF-SECRET", secret, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: false,
+  });
+  res.json({ csrfToken: token });
+});
+
+//Routes
+app.use("/api/users", usersRoute);
+app.use("/api/products", productsRoute);
+app.use("/api/cart", cartRoute);
+app.use("/api/checkout", checkoutRoute);
+app.use("/api/orders/", orderRoute);
+app.use("/api/admin/", adminRoute);
+
+// Middleware for handling errors
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+
+  // Handle Mongoose validation errors (status 400)
+  if (err.name === "ValidationError") {
+    return res.status(400).json({
+      message: err.message,
+    });
+  }
+
+  // Handle duplicate key errors (status 409)
+  if (err.code === 11000) {
+    return res.status(409).json({
+      message: "Duplicate key error (e.g., email already exists)",
+    });
+  }
+
+  // Default to 500 if no status is set
+  res.status(err.status || 500).json({
+    message: err.message || "Internal Server Error",
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
