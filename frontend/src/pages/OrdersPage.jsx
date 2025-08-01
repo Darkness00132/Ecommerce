@@ -5,6 +5,7 @@ import axiosInstance from "../axiosInstance/axiosInstance";
 
 const OrdersPage = () => {
   const navigate = useNavigate();
+
   const { data: orders, isLoading } = useQuery({
     queryKey: ["order", "customer"],
     queryFn: async () => {
@@ -13,72 +14,61 @@ const OrdersPage = () => {
     },
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading)
+    return <p className="text-center py-10 min-h-screen ">Loading...</p>;
+
+  if (!orders || orders.length === 0)
+    return (
+      <p className="text-center py-10 text-gray-500 min-h-screen">
+        You have no orders yet.
+      </p>
+    );
 
   return (
-    <div className="p-2 sm:p-4 min-h-screen">
-      <div className="overflow-x-auto border border-base-100 rounded-xl shadow-sm bg-base-100">
-        <table className="table w-full text-sm">
-          <thead className="bg-base-200 text-base-content">
-            <tr>
-              <th>Image</th>
-              <th>Order ID</th>
-              <th>Date</th>
-              <th>Shipping</th>
-              <th>Items</th>
-              <th>Total</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.length > 0 ? (
-              orders.map((order) => (
-                <tr
-                  key={order._id}
-                  className="hover:bg-base-100/50"
-                  onClick={() => navigate(`/orders/${order._id}`)}
-                >
-                  <td>
-                    <img
-                      src={order.orderItems[0].image}
-                      alt={order.orderItems[0].name}
-                      className="w-12 h-12 object-cover rounded-lg"
-                    />
-                  </td>
-                  <td className="font-medium whitespace-nowrap">
-                    #{order._id}
-                  </td>
-                  <td>
-                    {format(new Date(order.createdAt), "yyyy-MM-dd / hh:mm a")}
-                  </td>
-                  <td>
-                    {order.shippingAddress
-                      ? `${order.shippingAddress.city}, ${order.shippingAddress.country}`
-                      : "N/A"}
-                  </td>
-                  <td>{order.orderItems.length}</td>
-                  <td>${order.totalPrice}</td>
-                  <td>
-                    <span
-                      className={`badge text-xs font-semibold px-3 py-1 ${
-                        order.isPaid ? "badge-success" : "badge-warning"
-                      }`}
-                    >
-                      {order.isPaid ? "Paid" : "Pending"}
-                    </span>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={7} className="text-center py-8 text-gray-500">
-                  You have no orders yet.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+    <div className="p-4 max-w-4xl mx-auto space-y-4 min-h-screen">
+      {orders.map((order) => (
+        <div
+          key={order._id}
+          onClick={() => navigate(`/orders/${order._id}`)}
+          className="p-4 border rounded-xl bg-white shadow-sm hover:shadow-md cursor-pointer transition"
+        >
+          <div className="flex items-center gap-4">
+            <img
+              src={order.orderItems[0].image}
+              alt={order.orderItems[0].name}
+              className="w-16 h-16 object-cover rounded-md border"
+            />
+            <div className="flex-1 space-y-1">
+              <p className="text-sm text-gray-600">
+                <strong>Order:</strong> #{order._id.slice(-6)}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Date:</strong>{" "}
+                {format(new Date(order.createdAt), "yyyy-MM-dd / hh:mm a")}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>To:</strong>{" "}
+                {order.shippingAddress
+                  ? `${order.shippingAddress.city}, ${order.shippingAddress.country}`
+                  : "N/A"}
+              </p>
+              <p className="text-sm text-gray-600">
+                <strong>Items:</strong> {order.orderItems.length} &nbsp;|&nbsp;
+                <strong>Total:</strong> ${order.totalPrice.toFixed(2)}
+              </p>
+            </div>
+            <span
+              className={`text-sm font-semibold rounded-full px-3 py-1 ${
+                order.isPaid
+                  ? "bg-green-100 text-green-700"
+                  : "bg-yellow-100 text-yellow-800"
+              }`}
+            >
+              {order.isPaid ? "Paid" : "Pending"}
+            </span>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

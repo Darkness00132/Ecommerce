@@ -16,10 +16,9 @@ const SearchBar = () => {
 
     if (searchTerm.trim()) {
       navigate(`/collections?search=${encodeURIComponent(searchTerm.trim())}`);
+      setIsOpen(false);
+      setSearchTerm("");
     }
-
-    setIsOpen(false);
-    setSearchTerm("");
   }
 
   return (

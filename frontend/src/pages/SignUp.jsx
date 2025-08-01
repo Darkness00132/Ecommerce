@@ -2,12 +2,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import useAuthUser from "../store/useAuthUser";
+import useCart from "../store/useCart";
 
 const Signup = () => {
   const navigate = useNavigate();
   const isSigningup = useAuthUser((state) => state.isSigningup);
   const signup = useAuthUser((state) => state.signup);
   const isAuth = useAuthUser((state) => state.isAuth);
+  const mergeCart = useCart((state) => state.mergeCart);
 
   useEffect(() => {
     if (isAuth) {
@@ -23,6 +25,7 @@ const Signup = () => {
     e.preventDefault();
     const success = await signup({ name, email, password });
     if (success) {
+      await mergeCart();
       navigate("/");
     }
   }
@@ -77,7 +80,7 @@ const Signup = () => {
                 <input
                   type="email"
                   className="input input-bordered w-full"
-                  placeholder="Email"
+                  placeholder="example@gmail.com"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}

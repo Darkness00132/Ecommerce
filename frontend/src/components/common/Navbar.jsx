@@ -16,6 +16,7 @@ const Navbar = () => {
   const isAdmin = useAuthUser((state) => state.isAdmin);
   const isLoggingOut = useAuthUser((state) => state.isLoggingOut);
   const logout = useAuthUser((state) => state.logout);
+  const clearCart = useCart((state) => state.clearCart);
 
   const cart = useCart((state) => state.cart);
 
@@ -149,7 +150,10 @@ const Navbar = () => {
                 </li>
                 <li>
                   <button
-                    onClick={async () => await logout()}
+                    onClick={async () => {
+                      await logout();
+                      clearCart();
+                    }}
                     disabled={isLoggingOut}
                     className="text-sm py-2 px-4 hover:bg-gray-100 rounded-md text-red-500 transition disabled:opacity-50"
                   >

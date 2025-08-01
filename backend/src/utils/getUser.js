@@ -13,6 +13,7 @@ function getUser(guestID, jwtToken, create = true) {
       //pass
     }
   } else if (guestID) {
+    console.log("GUESTID: ", guestID);
     cartFilter = { guestID };
   } else if (create) {
     const newGuestID = "guest_" + Date.now();

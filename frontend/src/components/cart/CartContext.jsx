@@ -2,6 +2,8 @@ import { RiDeleteBin3Line } from "react-icons/ri";
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "../../axiosInstance/axiosInstance";
 import useCart from "../../store/useCart.js";
+import useAuthUser from "../../store/useCart.js";
+import { FiShoppingCart } from "react-icons/fi";
 
 const CartContext = () => {
   const guestID = useCart((state) => state.guestID);
@@ -11,9 +13,9 @@ const CartContext = () => {
   const removingProduct = useCart((state) => state.removingProduct);
   const isUpdatingQuantity = useCart((state) => state.isUpdatingQuantity);
   const updateQuantity = useCart((state) => state.updateQuantity);
-
+  const isAuth = useAuthUser((state) => state.isAuth);
   const { isLoading } = useQuery({
-    queryKey: ["cart"],
+    queryKey: ["cart", isAuth, guestID],
     queryFn: async () => {
       const response = await axiosInstance.get("/cart/?guestID=" + guestID);
       const cart = response.data.cart;
@@ -22,12 +24,36 @@ const CartContext = () => {
     },
     onError: (e) => {
       console.log(e);
+      toast.error(e?.response?.data?.message || "Failed to load your cart.");
     },
+    enabled: isAuth || !!guestID,
   });
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return (
+      <div className="alert alert-info flex items-center gap-2">
+        <span className="loading loading-spinner loading-sm"></span>
+        <span>Loading your cart...</span>
+      </div>
+    );
+  }
+
+  if (!cart || cart.products?.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center h-60 text-center space-y-3">
+        <FiShoppingCart size={48} className="text-base-content/60" />
+        <p className="text-lg font-semibold text-base-content/80">
+          Your cart is empty
+        </p>
+        <p className="text-sm text-base-content/60">
+          Add some products to get started.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
-      {cart?.products.map((cartProduct, index) => (
+      {cart?.products?.map((cartProduct, index) => (
         <div
           key={index}
           className="flex border border-base-200 rounded-xl shadow-sm overflow-hidden"

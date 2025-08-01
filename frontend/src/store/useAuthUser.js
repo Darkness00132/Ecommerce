@@ -9,55 +9,61 @@ const useAuthUser = create(
       user: null,
       isAuth: false,
       isAdmin: false,
+
       setCheck: (user) => {
         if (user) {
           const isAdmin = ["admin", "superAdmin", "owner"].includes(user.role);
           set({ user, isAuth: true, isAdmin });
         }
       },
+
       isSigningup: false,
       signup: async ({ name, email, password }) => {
         set({ isSigningup: true });
         try {
-          const response = await axiosInstance.post("/users/signup", {
+          const res = await axiosInstance.post("/users/signup", {
             name,
             email,
             password,
           });
-          const user = response.data.user;
+          const user = res.data.user;
           const isAdmin = ["admin", "superAdmin", "owner"].includes(user.role);
           set({ user, isAuth: true, isAdmin });
-          toast.success("Welcome to our family! " + user.name);
+          toast.success(`Welcome aboard, ${user.name}! 🎉`);
           return true;
-        } catch (error) {
-          toast.error(error?.response?.data?.error || "Failed to sign up");
-          console.log(error?.response?.data?.error);
+        } catch (err) {
+          toast.error(
+            err?.response?.data?.message || "Signup failed. Please try again."
+          );
+          console.error("Signup error:", err?.response?.data || err.message);
           return false;
-          return { success: false };
         } finally {
           set({ isSigningup: false });
         }
       },
 
-      isLoggin: false,
+      isLoggign: false,
       login: async ({ email, password }) => {
-        set({ isLoggin: true });
+        set({ isLogging: true });
         try {
-          const response = await axiosInstance.post("/users/login", {
+          const res = await axiosInstance.post("/users/login", {
             email,
             password,
           });
-          const user = response.data.user;
+          const user = res.data.user;
           const isAdmin = ["admin", "superAdmin", "owner"].includes(user.role);
           set({ user, isAuth: true, isAdmin });
-          toast.success("welcome back to our family! " + user.name);
+          toast.success(`Welcome back, ${user.name}! 👋`);
           return true;
-        } catch (error) {
-          toast.error(error?.response?.data?.error || "Failed to login");
-          console.log(error?.response?.data?.error);
+        } catch (err) {
+          toast.error(
+            err?.response?.data?.message ||
+              "Login failed. Please check your credentials."
+          );
+          console.error("Login error:", err?.response?.data || err.message);
           return false;
         } finally {
-          set({ isLoggin: false });
+          set({ isLogging: false });
         }
       },
 
@@ -65,12 +71,14 @@ const useAuthUser = create(
       logout: async () => {
         set({ isLoggingOut: true });
         try {
-          const response = await axiosInstance.delete("/users/logout");
+          const res = await axiosInstance.delete("/users/logout");
           set({ user: null, isAuth: false, isAdmin: false });
-          toast.success(response.data.message);
-        } catch (error) {
-          toast.error(error?.response?.data?.error || "Failed to logout");
-          console.log(error?.response?.data?.error);
+          toast.success(res.data.message || "Logged out successfully.");
+        } catch (err) {
+          toast.error(
+            err?.response?.data?.message || "Logout failed. Please try again."
+          );
+          console.error("Logout error:", err?.response?.data || err.message);
         } finally {
           set({ isLoggingOut: false });
         }

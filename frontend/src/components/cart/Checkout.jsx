@@ -10,7 +10,7 @@ const Checkout = () => {
   const isAuth = useAuthUser((state) => state.isAuth);
   const navigate = useNavigate();
   useEffect(() => {
-    if (!isAuth) navigate("/");
+    if (!isAuth) navigate("/login");
   }, [isAuth]);
 
   const cart = useCart((state) => state.cart);
@@ -110,19 +110,29 @@ const Checkout = () => {
                 <PaypalButton
                   amount={total}
                   onSuccess={async (details) => {
-                    const paid = await makePayment({
-                      paymentStatus: details.status,
-                      paymentDetails: details,
-                      checkoutID,
-                    });
-                    if (paid) {
+                    try {
+                      const paid = await makePayment({
+                        paymentStatus: details.status,
+                        paymentDetails: details,
+                        checkoutID,
+                      });
+                      if (!paid) return toast.error("Payment failed.");
                       const orderID = await makeOrder(checkoutID);
-                      if (orderID) navigate(`/orderConfirmation/${orderID}`);
+                      if (!orderID)
+                        return toast.error("Order creation failed.");
+                      navigate(`/orderConfirmation/${orderID}`);
+                    } catch (err) {
+                      console.error("Payment/onSuccess error:", err);
+                      toast.error(
+                        "Something went wrong while processing your order."
+                      );
                     }
                   }}
                   onError={(err) => {
                     console.error("Payment error:", err);
-                    toast.error("Failed to pay");
+                    toast.error(
+                      "Payment failed. Please try again or use a different method."
+                    );
                   }}
                 />
               ) : (

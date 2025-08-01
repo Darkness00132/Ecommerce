@@ -2,10 +2,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import Cookies from "js-cookie";
 import axiosInstance from "./axiosInstance/axiosInstance";
 import useAuthUser from "./store/useAuthUser";
-
 import UserLayout from "./components/layout/UserLayout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -28,23 +26,40 @@ import NotFoundPage from "./pages/NotFound";
 
 function App() {
   useEffect(() => {
-    const initCsrf = async () => {
-      const res = await axiosInstance.get("/csrf-token");
-      Cookies.set("csrfToken", res.data.csrfToken);
+    const getCsrfToken = async () => {
+      try {
+        const res = await axiosInstance.get("/csrf-token");
+        // Optional: store token in memory (or just rely on axios interceptor)
+        axiosInstance.defaults.headers.common["X-CSRF-Token"] =
+          res.data.csrfToken;
+      } catch (err) {
+        console.error("Failed to fetch CSRF token", err);
+      }
     };
-    initCsrf();
+
+    getCsrfToken();
   }, []);
+
   const setCheck = useAuthUser((state) => state.setCheck);
   const isAuth = useAuthUser((state) => state.isAuth);
-  useQuery({
+
+  const { refetch } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
       const response = await axiosInstance.get("/users/profile");
-      setCheck(response.data?.user);
-      return response.data?.user;
+      const user = response.data?.user;
+      if (user) setCheck(user);
+      return user;
     },
-    enabled: !isAuth,
+    enabled: false,
+    retry: false,
   });
+
+  useEffect(() => {
+    if (!isAuth) {
+      refetch();
+    }
+  }, [isAuth]);
 
   return (
     <BrowserRouter>

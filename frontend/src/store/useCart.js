@@ -28,8 +28,8 @@ const useAuthUser = create(
           set({ cart, guestID: cart.guestID || guestID });
           toast.success("Product added to cart!");
         } catch (e) {
-          toast.error("failed to add to cart");
-          console.log("Cart error: ", e?.response?.data);
+          toast.error("Failed to add to cart.");
+          console.error("Remove error:", e?.response?.data || e.message);
         } finally {
           set({ isAddingProduct: false });
         }
@@ -48,8 +48,11 @@ const useAuthUser = create(
           const response = await axiosInstance.delete(`/cart/?${params}`);
           set({ cart: response.data.cart });
         } catch (e) {
-          console.log(e);
           toast.error("Failed to remove item. Please try again.");
+          console.error(
+            "Remove product error:",
+            e?.response?.data || e.message
+          );
         } finally {
           set({ removingProduct: false });
         }
@@ -69,11 +72,26 @@ const useAuthUser = create(
           const response = await axiosInstance.put(`/cart/?${params}`);
           set({ cart: response.data.cart });
         } catch (e) {
-          console.log(e);
-          toast.error("Couldn't update the quantity. Please try again.");
+          toast.error("Couldn't update quantity. Please try again.");
+          console.error(
+            "Update quantity error:",
+            e?.response?.data || e.message
+          );
         } finally {
           set({ isUpdatingQuantity: false });
         }
+      },
+      mergeCart: async () => {
+        try {
+          const guestID = get().guestID;
+          const response = await axiosInstance.post("/cart/merge", { guestID });
+          set({ cart: response.data.cart });
+        } catch (e) {
+          console.error("Merge error:", e?.response?.data || e.message);
+        }
+      },
+      clearCart: () => {
+        set({ cart: null, guestID: null });
       },
     }),
     {

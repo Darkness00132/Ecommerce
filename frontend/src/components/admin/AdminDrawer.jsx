@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import LacosteIcon from "/crocodile.png";
 import {
   FaBoxOpen,
@@ -8,11 +8,14 @@ import {
   FaPlusCircle,
 } from "react-icons/fa";
 import { HiOutlineUserGroup } from "react-icons/hi";
-import useAuthUser from "../../store/useAuthUser.js";
+import useAuthUser from "../../store/useAuthUser";
+import useCart from "../../store/useCart";
 
 const AdminDrawer = ({ children }) => {
+  const navigate = useNavigate();
   const isLoggingOut = useAuthUser((state) => state.isLoggingOut);
   const logout = useAuthUser((state) => state.logout);
+  const clearCart = useCart((state) => state.clearCart);
 
   return (
     <div className="drawer lg:drawer-open">
@@ -62,7 +65,6 @@ const AdminDrawer = ({ children }) => {
             </NavLink>
           </li>
 
-          {/* ✅ New "Make Product" Link */}
           <li className="mb-3 hover:bg-cyan-600 rounded-lg">
             <NavLink
               to="/admin/makeProduct"
@@ -101,6 +103,8 @@ const AdminDrawer = ({ children }) => {
               disabled={isLoggingOut}
               onClick={async () => {
                 await logout();
+                clearCart();
+                navigate("/");
               }}
             >
               <FaSignOutAlt size={20} />

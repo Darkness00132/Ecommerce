@@ -4,18 +4,26 @@ import { Link } from "react-router-dom";
 import axiosInstance from "../../axiosInstance/axiosInstance";
 
 const NewArrivals = () => {
-  const { data: newArrivals, isLoading } = useQuery({
+  const {
+    data: newArrivals,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["products", "new Arrivals"],
     queryFn: async () => {
       const response = await axiosInstance.get("/products/?limit=8");
       return response.data.products;
     },
     onError: (error) => {
-      console.log("new arrivals error: ", error);
+      console.error("new arrivals error:", error);
     },
   });
 
-  if (isLoading) return <p>Loading</p>;
+  // 👉 Show loading text
+  if (isLoading) return <p className="text-center my-10">Loading...</p>;
+
+  // 👉 Hide whole section if no products or error
+  if (isError || !newArrivals || newArrivals.length === 0) return null;
 
   return (
     <section className="py-16 px-4 lg:px-0">
@@ -29,15 +37,16 @@ const NewArrivals = () => {
 
       <Marquee speed={40} pauseOnHover gradient={false} className="gap-6">
         {newArrivals.map((product) => (
-          <Link to={`/product/${product._id}`} className="block">
-            <div
-              key={product._id}
-              className="min-w-[70%] sm:min-w-[50%] lg:min-w-[30%] mx-3 relative"
-            >
+          <Link
+            to={`/product/${product._id}`}
+            className="block"
+            key={product._id}
+          >
+            <div className="min-w-[70%] sm:min-w-[50%] lg:min-w-[30%] mx-3 relative">
               <img
                 src={product.images[0].url}
                 alt={product.images[0].altText || product.name}
-                className="w-full h-[400px]  md:h-[500px] object-cover rounded-lg"
+                className="w-full h-[400px] md:h-[500px] object-cover rounded-lg"
                 draggable={false}
               />
               <div className="absolute bottom-0 left-0 right-0 bg-white/20 backdrop-blur-md text-white p-4 rounded-b-lg">
@@ -48,7 +57,7 @@ const NewArrivals = () => {
                     <span className="line-through text-sm text-gray-300">
                       ${product.price}
                     </span>
-                    <span className="text-lg font-semibold ">
+                    <span className="text-lg font-semibold">
                       ${product.discountPrice}
                     </span>
                   </div>

@@ -6,21 +6,47 @@ import { toast } from "sonner";
 
 const OrderConfirmation = () => {
   const { id } = useParams();
-  const { data: order, isLoading } = useQuery({
+  const {
+    data: order,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["order", id],
     queryFn: async () => {
       const response = await axiosInstance.get("/orders/" + id);
       return response.data.order;
     },
-    onError: async (e) => {
-      toast.error(
-        `Something went wrong: ${e?.response?.data?.message || e.message}`
-      );
-      console.log(e);
-    },
   });
 
-  if (isLoading) return <p>Loading</p>;
+  if (isError) {
+    return (
+      <div className="min-h-screen flex flex-col justify-center items-center text-center px-4">
+        <h2 className="text-2xl font-semibold text-red-500 mb-2">
+          Something went wrong
+        </h2>
+        <p className="text-sm text-gray-600 mb-4">
+          {error?.response?.data?.message ||
+            error.message ||
+            "Unable to load order details."}
+        </p>
+        <button
+          className="btn btn-sm btn-primary"
+          onClick={() => window.location.reload()}
+        >
+          Try Again
+        </button>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <span className="loading loading-spinner text-primary loading-lg"></span>
+      </div>
+    );
+  }
 
   const {
     _id,

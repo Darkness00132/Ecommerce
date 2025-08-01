@@ -1,17 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useAuthUser from "../store/useAuthUser";
-import { useEffect } from "react";
+import useCart from "../store/useCart";
 
 const Login = () => {
   const navigate = useNavigate();
   const isLogging = useAuthUser((state) => state.isLogging);
   const login = useAuthUser((state) => state.login);
   const isAuth = useAuthUser((state) => state.isAuth);
+  const mergeCart = useCart((state) => state.mergeCart);
 
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     if (isAuth) {
@@ -22,7 +23,10 @@ const Login = () => {
   async function handleSubmit(e) {
     e.preventDefault();
     const success = await login({ email, password });
-    if (success) navigate("/");
+    if (success) {
+      await mergeCart();
+      navigate("/");
+    }
   }
 
   return (

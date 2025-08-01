@@ -139,9 +139,13 @@ cartController.deleteProductInCart = asyncHandler(async (req, res) => {
 cartController.mergeProductsInCart = asyncHandler(async (req, res) => {
   const { guestID } = req.body;
 
+  if (!guestID) {
+    return res.status(404).json({ message: "Missing guest id" });
+  }
+
   const guestCart = await Cart.findOne({ guestID });
   if (!guestCart) {
-    return res.status(404).json({ error: "Guest cart not found" });
+    return res.status(404).json({ message: "Guest cart not found" });
   }
 
   // Check if user already has a cart

@@ -13,7 +13,12 @@ const OrderDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: order, isLoading } = useQuery({
+  const {
+    data: order,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["order", id],
     queryFn: async () => {
       const response = await axiosInstance.get("/orders/" + id);
@@ -27,7 +32,34 @@ const OrderDetails = () => {
     },
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isError) {
+    return (
+      <div className="min-h-screen flex flex-col justify-center items-center px-4 text-center">
+        <h2 className="text-2xl font-semibold text-red-500 mb-2">
+          Failed to load order
+        </h2>
+        <p className="text-sm text-gray-600 mb-4">
+          {error?.response?.data?.message ||
+            error.message ||
+            "Something went wrong."}
+        </p>
+        <button
+          className="btn btn-sm btn-primary"
+          onClick={() => window.location.reload()}
+        >
+          Try Again
+        </button>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <span className="loading loading-spinner text-primary loading-lg"></span>
+      </div>
+    );
+  }
 
   const productTotal = order.orderItems.reduce(
     (acc, item) => acc + item.priceAtPurchaseTime * item.quantity,

@@ -43,10 +43,10 @@ mongoose
 app.get("/api/csrf-token", (req, res) => {
   const secret = tokens.secretSync();
   const token = tokens.create(secret);
-  res.cookie("CSRF-SECRET", secret, {
+  res.cookie("csrf-secret", secret, {
     httpOnly: true,
-    sameSite: "none",
-    secure: process.env.PRODUCTION === "true" ? true : false,
+    sameSite: process.env.PRODUCTION === "true" ? "none" : "lax",
+    secure: process.env.PRODUCTION === "true",
   });
   res.json({ csrfToken: token });
 });
@@ -84,3 +84,4 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
+// app.listen(PORT);

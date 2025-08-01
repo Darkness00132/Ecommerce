@@ -14,7 +14,11 @@ const Collection = () => {
   }, []);
 
   const location = useLocation();
-  const { data: products, isFetching } = useQuery({
+  const {
+    data: products,
+    isFetching,
+    isError,
+  } = useQuery({
     queryKey: ["products", location.search],
     queryFn: async () => {
       const response = await axiosInstance.get("/products/" + location.search);
@@ -23,6 +27,14 @@ const Collection = () => {
   });
 
   if (isFetching) return <CollectionSkeleton />;
+
+  if (isError) {
+    return (
+      <div className="text-center text-red-500 mt-10">
+        Failed to load products: {error.message}
+      </div>
+    );
+  }
 
   return (
     <div className="drawer lg:drawer-open">
