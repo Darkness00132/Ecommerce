@@ -16,9 +16,6 @@ const adminRoute = require("./routes/admin.route.js");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser(process.env.SECRET_COOKIE));
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
@@ -26,6 +23,9 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser(process.env.SECRET_COOKIE));
 app.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
 
 // MongoDB connection
@@ -45,8 +45,8 @@ app.get("/api/csrf-token", (req, res) => {
   const token = tokens.create(secret);
   res.cookie("CSRF-SECRET", secret, {
     httpOnly: true,
-    sameSite: "lax",
-    secure: false,
+    sameSite: "none",
+    secure: process.env.PRODUCTION === "true" ? true : false,
   });
   res.json({ csrfToken: token });
 });

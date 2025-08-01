@@ -13,9 +13,9 @@ userController.postSignup = asyncHandler(async (req, res) => {
   res.cookie("jwt", token, {
     httpOnly: true,
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    // secure: true, // enable in production (HTTPS)
+    secure: process.env.PRODUCTION === "true" ? true : false,
     signed: true,
-    sameSite: "Strict",
+    sameSite: "none",
   });
   return res.status(201).json({ user });
 });
@@ -34,8 +34,8 @@ userController.postLogin = asyncHandler(async (req, res) => {
   res.cookie("jwt", token, {
     httpOnly: true,
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    // secure: true, // enable in production (HTTPS)
-    sameSite: "Strict",
+    secure: process.env.PRODUCTION === "true" ? true : false,
+    sameSite: "none",
     signed: true,
   });
   res.status(200).json({ user });
@@ -51,8 +51,8 @@ userController.deleteLogout = asyncHandler(async (req, res) => {
   await req.user.save();
   res.clearCookie("jwt", {
     httpOnly: true,
-    // secure: true, // enable in production (HTTPS)
-    sameSite: "Strict",
+    secure: process.env.PRODUCTION === "true" ? true : false,
+    sameSite: "none",
     signed: true,
   });
   res.status(200).json({ message: "logged out" });
