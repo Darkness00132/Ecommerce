@@ -5,7 +5,7 @@ import {
   HiBars3BottomRight,
 } from "react-icons/hi2";
 import { BiHistory } from "react-icons/bi";
-import SearchBar from "./SearchBAr";
+import SearchBar from "./SearchBar";
 import CartDrawer from "../layout/CartDrawer";
 import LacosteIcon from "/crocodile.png";
 import useAuthUser from "../../store/useAuthUser";
