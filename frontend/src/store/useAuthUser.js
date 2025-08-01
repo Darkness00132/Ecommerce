@@ -28,10 +28,11 @@ const useAuthUser = create(
           const isAdmin = ["admin", "superAdmin", "owner"].includes(user.role);
           set({ user, isAuth: true, isAdmin });
           toast.success("Welcome to our family! " + user.name);
-          return { success: true };
+          return true;
         } catch (error) {
           toast.error(error?.response?.data?.error || "Failed to sign up");
           console.log(error?.response?.data?.error);
+          return false;
           return { success: false };
         } finally {
           set({ isSigningup: false });
@@ -50,9 +51,11 @@ const useAuthUser = create(
           const isAdmin = ["admin", "superAdmin", "owner"].includes(user.role);
           set({ user, isAuth: true, isAdmin });
           toast.success("welcome back to our family! " + user.name);
+          return true;
         } catch (error) {
           toast.error(error?.response?.data?.error || "Failed to login");
           console.log(error?.response?.data?.error);
+          return false;
         } finally {
           set({ isLoggin: false });
         }
