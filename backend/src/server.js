@@ -39,7 +39,11 @@ app.use(
         "https://apis.google.com",
       ],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      styleSrcElem: ["'self'", "https://fonts.googleapis.com"],
+      styleSrcElem: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://fonts.googleapis.com",
+      ],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       imgSrc: ["'self'", "data:", "blob:", "https:"],
       connectSrc: [
@@ -52,6 +56,7 @@ app.use(
     },
   })
 );
+
 app.use(helmet.frameguard({ action: "sameorigin" }));
 app.use(helmet.referrerPolicy({ policy: "no-referrer-when-downgrade" }));
 app.use(
