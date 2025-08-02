@@ -1,5 +1,4 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import LacosteIcon from "/crocodile.png";
 import {
   FaBoxOpen,
   FaClipboardList,
@@ -33,7 +32,11 @@ const AdminDrawer = ({ children }) => {
               to="/admin"
               className="mx-auto cursor-pointer hover:bg-transparent focus:bg-transparent"
             >
-              <img src={LacosteIcon} alt="Lacoste" className="w-8 h-7" />
+              <img
+                src="https://res.cloudinary.com/dgzqfkqua/image/upload/v1754112822/My%20Brand/crocodile_rgzngx.png"
+                alt="Lacoste"
+                className="w-8 h-7"
+              />
               <span className="text-3xl font-extrabold tracking-tight">
                 Lacoste
               </span>

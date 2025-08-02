@@ -3,6 +3,7 @@ const path = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
 const tokens = require("./utils/csrfTokens.js");
 require("dotenv").config();
 
@@ -27,6 +28,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SECRET_COOKIE));
 app.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://apis.google.com"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:"],
+    },
+  })
+);
+
+app.use(helmet.frameguard({ action: "sameorigin" }));
+app.use(helmet.referrerPolicy({ policy: "no-referrer-when-downgrade" }));
+app.use(
+  helmet.hsts({ maxAge: 63072000, includeSubDomains: true, preload: true })
+);
 
 // MongoDB connection
 mongoose

@@ -74,7 +74,7 @@ const Navbar = () => {
           <Link to="/" className="flex items-center gap-2 text-xl font-bold">
             <img
               src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto/v1754112822/My%20Brand/crocodile_rgzngx.png"
-              fetchPriority="high"
+              fetchpriority="high"
               alt="Lacoste Logo"
               className="w-7 h-7"
             />
