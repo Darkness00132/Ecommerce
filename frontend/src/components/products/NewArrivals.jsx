@@ -29,7 +29,7 @@ const NewArrivals = () => {
     <section className="py-16 px-4 lg:px-0">
       <div className="container mx-auto text-center mb-10">
         <h2 className="text-3xl font-bold mb-4">Explore New Arrivals</h2>
-        <p className="text-gray-600 dark:text-gray-300">
+        <p className="text-gray-500">
           Discover the latest trends, fresh styles, and must-have pieces
           handpicked just for you.
         </p>

@@ -13,11 +13,11 @@ const Hero = () => {
 
       {/* Overlay content */}
       <div className="absolute inset-0 bg-black/50 flex items-center justify-center px-6">
-        <div className="text-center text-white max-w-3xl">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-5 tracking-wide opacity-70 uppercase text-base-200">
+        <div className="text-center text-base-200 max-w-3xl">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-5 tracking-wide opacity-70 uppercase">
             Adventure Awaits
           </h1>
-          <p className="text-base sm:text-lg md:text-xl mb-10 max-w-xl mx-auto opacity-60">
+          <p className="text-base-100 sm:text-lg md:text-xl mb-10 max-w-xl mx-auto opacity-60">
             Discover premium gear for your next journey — from coastal escapes
             to mountain hikes.
           </p>
