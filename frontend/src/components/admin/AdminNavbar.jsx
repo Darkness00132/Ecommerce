@@ -1,5 +1,4 @@
 import { HiBars3BottomRight } from "react-icons/hi2";
-import LacosteIcon from "/crocodile.png";
 import { Link } from "react-router-dom";
 
 const AdminNavbar = () => {
@@ -15,7 +14,11 @@ const AdminNavbar = () => {
           to="/admin"
           className="text-lg font-semibold tracking-wide flex-1 flex justify-center items-center gap-2"
         >
-          <img src={LacosteIcon} alt="Lacoste" className="w-7 h-7" />
+          <img
+            src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto/v1754112822/My%20Brand/crocodile_rgzngx.png"
+            alt="Lacoste logo"
+            className="w-7 h-7"
+          />
           Lacoste
         </Link>
       </div>

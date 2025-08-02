@@ -1,33 +1,34 @@
 import { Link } from "react-router-dom";
-import HeroImage from "../../assets/hero.jpg";
 
 const Hero = () => {
   return (
-    <div
-      className="hero h-[400px] sm:h-[500px] md:h-[600px] lg:min-h-screen bg-cover bg-center relative"
-      style={{ backgroundImage: `url(${HeroImage})` }}
-    >
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/50 z-0" />
+    <section className="relative w-full overflow-hidden bg-base-100">
+      {/* Hero image */}
+      <img
+        src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto/hero_mowl1k.jpg"
+        alt="Adventure background"
+        fetchpriority="high"
+        className="w-full h-[500px] md:h-[700px] object-cover"
+      />
 
-      {/* Hero content */}
-      <div className="hero-content z-10 text-neutral-content text-center">
-        <div className="max-w-xl px-4">
-          <h1 className="mb-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold uppercase drop-shadow-md">
+      {/* Overlay content */}
+      <div className="absolute inset-0 bg-black/50 flex items-center justify-center px-6">
+        <div className="text-center text-white max-w-3xl">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-5 tracking-wide opacity-70 uppercase text-base-200">
             Adventure Awaits
           </h1>
-          <p className="mb-6 text-base md:text-lg opacity-90 drop-shadow-sm">
-            From sun-drenched coastlines to mountain peaks — gear up for your
-            most unforgettable journey yet.
+          <p className="text-base sm:text-lg md:text-xl mb-10 max-w-xl mx-auto opacity-60">
+            Discover premium gear for your next journey — from coastal escapes
+            to mountain hikes.
           </p>
           <Link to="/collections">
-            <button className="btn btn-primary md:btn-lg  rounded-xl shadow-md hover:shadow-xl transition">
+            <button className="btn btn-primary btn-lg rounded-lg shadow-md hover:shadow-lg transition-transform hover:scale-105">
               Shop Now
             </button>
           </Link>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

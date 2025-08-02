@@ -1,5 +1,3 @@
-import mensCollectionImage from "../../assets/mens-collection.jpg";
-import womensCollectionImage from "../../assets/womens-collection.jpg";
 import { Link } from "react-router-dom";
 
 const GenderCollection = () => {
@@ -9,8 +7,9 @@ const GenderCollection = () => {
         {/* Women's Collection */}
         <div className="relative flex-1 group overflow-hidden rounded-2xl shadow-md">
           <img
-            src={womensCollectionImage}
+            src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto/v1754111603/womens-collection_qdvwsb.jpg"
             alt="Women's Collection"
+            fetchpriority="high"
             className="w-full aspect-[3/4] object-cover transform transition duration-300 group-hover:scale-105"
           />
           <div className="absolute bottom-6 left-6 bg-white/90 dark:bg-base-200/90 backdrop-blur-md p-5 rounded-xl shadow-lg">
@@ -29,8 +28,9 @@ const GenderCollection = () => {
         {/* Men's Collection */}
         <div className="relative flex-1 group overflow-hidden rounded-2xl shadow-md">
           <img
-            src={mensCollectionImage}
+            src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto/v1754111608/mens-collection_f4oqcj.jpg"
             alt="Men's Collection"
+            fetchpriority="high"
             className="w-full aspect-[3/4] object-cover transform transition duration-300 group-hover:scale-105"
           />
           <div className="absolute bottom-6 left-6 bg-white/90 dark:bg-base-200/90 backdrop-blur-md p-5 rounded-xl shadow-lg">

@@ -7,7 +7,6 @@ import {
 import { BiHistory } from "react-icons/bi";
 import SearchBar from "./SearchBar";
 import CartDrawer from "../layout/CartDrawer";
-import LacosteIcon from "/crocodile.png";
 import useAuthUser from "../../store/useAuthUser";
 import useCart from "../../store/useCart";
 
@@ -73,7 +72,12 @@ const Navbar = () => {
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 text-xl font-bold">
-            <img src={LacosteIcon} alt="Lacoste Logo" className="w-7 h-7" />
+            <img
+              src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto/v1754112822/My%20Brand/crocodile_rgzngx.png"
+              fetchPriority="high"
+              alt="Lacoste Logo"
+              className="w-7 h-7"
+            />
             <span>Lacoste</span>
           </Link>
         </div>
