@@ -53,6 +53,7 @@ app.use(helmet.referrerPolicy({ policy: "no-referrer-when-downgrade" }));
 app.use(
   helmet.hsts({ maxAge: 63072000, includeSubDomains: true, preload: true })
 );
+app.disable("x-powered-by");
 
 // MongoDB connection
 mongoose
