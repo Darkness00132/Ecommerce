@@ -56,7 +56,6 @@ app.use(
     },
   })
 );
-
 app.use(helmet.frameguard({ action: "sameorigin" }));
 app.use(helmet.referrerPolicy({ policy: "no-referrer-when-downgrade" }));
 app.use(
@@ -119,5 +118,5 @@ app.use((err, req, res, next) => {
   });
 });
 
-module.exports = app;
-// app.listen(PORT);
+// module.exports = app;
+app.listen(PORT);
