@@ -15,32 +15,28 @@
   ],
   "headers": [
     {
+      "source": "/(.*)",
       "headers": [
         {
-          "source": "/(.*)",
-          "headers": [
-            {
-              "key": "Content-Security-Policy",
-              "value": "default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' https://fonts.googleapis.com; style-src-elem 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://lacostapi.vercel.app; object-src 'none'; frame-ancestors 'none';"
-            },
-            { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-            { "key": "X-Content-Type-Options", "value": "nosniff" },
-            { "key": "Referrer-Policy", "value": "no-referrer-when-downgrade" },
-            {
-              "key": "Strict-Transport-Security",
-              "value": "max-age=63072000; includeSubDomains; preload"
-            },
-            {
-              "key": "Permissions-Policy",
-              "value": "geolocation=(), microphone=(), camera=()"
-            },
-            {
-              "key": "Cross-Origin-Embedder-Policy",
-              "value": "unsafe-none"
-            },
-            { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" }
-          ]
-        }
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' https://fonts.googleapis.com; style-src-elem 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https:; connect-src 'self' https://lacostapi.vercel.app; object-src 'none'; frame-ancestors 'none';"
+        },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "no-referrer-when-downgrade" },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), microphone=(), camera=()"
+        },
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "unsafe-none"
+        },
+        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" }
       ]
     }
   ]
