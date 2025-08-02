@@ -42,7 +42,11 @@ app.use(
       styleSrcElem: ["'self'", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       imgSrc: ["'self'", "data:", "blob:", "https:"],
-      connectSrc: ["'self'", process.env.FRONTEND_URL],
+      connectSrc: [
+        "'self'",
+        "https://lacost-ecommerce.vercel.app",
+        "https://lacostapi.vercel.app",
+      ],
       objectSrc: ["'none'"],
       frameAncestors: ["'self'"],
     },
