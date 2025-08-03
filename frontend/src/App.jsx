@@ -44,6 +44,7 @@ function App() {
     getCsrfToken();
   }, []);
 
+  const isAuth = useAuthUser((state) => state.isAuth);
   const { refetch } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
