@@ -19,7 +19,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://apis.google.com https://www.paypal.com https://www.paypalobjects.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; style-src-elem 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://res.cloudinary.com https://www.paypalobjects.com; connect-src 'self' https://lacostapi.vercel.app https://www.paypal.com https://www.sandbox.paypal.com; frame-src https://www.paypal.com https://www.sandbox.paypal.com; object-src 'none'; base-uri 'self'; form-action 'self';"
+          "value": "script-src 'self' 'nonce-abc123secure' https://apis.google.com https://www.paypal.com https://www.paypalobjects.com; ..."
         },
         {
           "key": "Strict-Transport-Security",

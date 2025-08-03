@@ -1,10 +1,12 @@
 const express = require("express");
-const path = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const tokens = require("./utils/csrfTokens.js");
+const rateLimit = require("express-rate-limit");
+const xss = require("xss-clean");
+const mongoSanitize = require("express-mongo-sanitize");
 require("dotenv").config();
 
 const usersRoute = require("./routes/user.route.js");
@@ -27,58 +29,23 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SECRET_COOKIE));
-app.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: [
-        "'self'",
-        "'unsafe-inline'",
-        "'unsafe-eval'",
-        "https://apis.google.com",
-        "https://www.paypal.com",
-        "https://www.paypalobjects.com",
-      ],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      styleSrcElem: [
-        "'self'",
-        "'unsafe-inline'",
-        "https://fonts.googleapis.com",
-      ],
-      fontSrc: [
-        "'self'",
-        "https://fonts.gstatic.com",
-        "https://www.paypal.com",
-      ],
-      imgSrc: [
-        "'self'",
-        "data:",
-        "blob:",
-        "https:",
-        "https://res.cloudinary.com",
-        "https://www.paypalobjects.com",
-      ],
-      connectSrc: [
-        "'self'",
-        "https://lacost-ecommerce.vercel.app",
-        "https://lacostapi.vercel.app",
-        "https://www.paypal.com",
-        "https://www.sandbox.paypal.com",
-      ],
-      objectSrc: ["'none'"],
-      frameAncestors: [
-        "'self'",
-        "https://www.paypal.com",
-        "https://www.sandbox.paypal.com",
-      ],
-    },
-  })
-);
-app.use(helmet.frameguard({ action: "sameorigin" }));
+app.use(helmet.noSniff());
+app.use(helmet.dnsPrefetchControl({ allow: false }));
 app.use(helmet.referrerPolicy({ policy: "no-referrer-when-downgrade" }));
 app.use(
   helmet.hsts({ maxAge: 63072000, includeSubDomains: true, preload: true })
+);
+app.use(mongoSanitize());
+app.use(xss());
+app.set("trust proxy", 1);
+app.use(
+  rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: "Too many requests, please try again later.",
+    standardHeaders: true,
+    legacyHeaders: false,
+  })
 );
 app.disable("x-powered-by");
 
