@@ -8,8 +8,8 @@ router.get("/users", auth, admin, adminController.getUsers);
 
 router.post("/", verifyCsrf, auth, superAdmin, adminController.makeUser);
 
-router.put("/:id", verifyCsrf, auth, superAdmin, adminController.updateUser);
+router.put("/", verifyCsrf, auth, superAdmin, adminController.updateUser);
 
-router.delete("/:id", verifyCsrf, auth, superAdmin, adminController.deleteUser);
+router.delete("/", verifyCsrf, auth, superAdmin, adminController.deleteUser);
 
 module.exports = router;

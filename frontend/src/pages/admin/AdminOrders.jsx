@@ -1,27 +1,42 @@
 import { useState } from "react";
-import { FaSearch, FaFilter, FaEdit } from "react-icons/fa";
+import { FaSearch, FaEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "../../axiosInstance/axiosInstance";
+import { toast } from "sonner";
 
 const AdminOrders = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const [filterOpen, setFilterOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("");
+
   const { data: orders, isLoading } = useQuery({
-    queryKey: ["order", "admin"],
+    queryKey: ["orders", search, statusFilter],
     queryFn: async () => {
-      const response = await axiosInstance.get("/orders/all ");
+      const response = await axiosInstance.get("/orders/all", {
+        params: {
+          search,
+          status: statusFilter,
+        },
+      });
       return response.data.orders;
     },
+    onError: () => {
+      toast.error("Failed to load orders. Please try again.");
+    },
   });
-  console.log(orders);
 
-  if (isLoading) return <p>Loading...</p>;
-
-  const filteredOrders = orders.filter((order) =>
-    order.user.name.toLowerCase().includes(search.toLowerCase())
-  );
+  if (isLoading) {
+    return (
+      <div className="max-w-7xl mx-auto p-6">
+        <div className="animate-pulse space-y-4">
+          <div className="h-8 bg-base-200 rounded w-1/3" />
+          <div className="h-10 bg-base-200 rounded" />
+          <div className="h-60 bg-base-200 rounded" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto p-6">
@@ -34,37 +49,26 @@ const AdminOrders = () => {
         <div className="relative w-full sm:w-1/2">
           <input
             type="text"
-            placeholder="Search by customer name..."
+            placeholder="Search by email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="input input-bordered w-full pr-10"
           />
           <FaSearch className="absolute right-3 top-3 text-gray-500" />
         </div>
-        <button
-          onClick={() => setFilterOpen(true)}
-          className="btn btn-outline w-full sm:w-auto"
-        >
-          <FaFilter className="mr-2" />
-          Filters
-        </button>
-      </div>
 
-      {/* Filter Modal */}
-      {filterOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg w-[300px]">
-            <h2 className="text-lg font-bold mb-4">Filters</h2>
-            <p className="text-sm text-gray-500">Add filters here.</p>
-            <button
-              onClick={() => setFilterOpen(false)}
-              className="btn btn-sm mt-4"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="select select-bordered w-full sm:w-40"
+        >
+          <option value="">All Statuses</option>
+          <option value="Pending">Pending</option>
+          <option value="Paid">Paid</option>
+          <option value="Delivered">Delivered</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+      </div>
 
       {/* Orders Table */}
       <div className="overflow-x-auto border border-base-300 rounded-xl shadow">
@@ -79,16 +83,16 @@ const AdminOrders = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredOrders.length ? (
-              filteredOrders.map((order) => (
+            {orders?.length ? (
+              orders.map((order) => (
                 <tr
                   key={order._id}
-                  className="hover:bg-base-100/50"
+                  className="hover:bg-base-100/50 cursor-pointer"
                   onClick={() => navigate(`${order._id}`)}
                 >
                   <td className="truncate">{order.user.name}</td>
                   <td className="truncate">{order.user.email}</td>
-                  <td>${order.totalPrice.toFixed(2)}</td>
+                  <td>${order.totalPrice}</td>
                   <td>{order.status}</td>
                   <td className="text-center">
                     <button className="btn btn-sm btn-primary btn-outline">

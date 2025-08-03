@@ -93,11 +93,11 @@ userSchema.methods.generateAuthToken = async function () {
 
 userSchema.methods.toJSON = function () {
   const user = this.toObject();
-  return {
-    name: user.name,
-    email: user.email,
-    role: user.role,
-  };
+
+  delete user.tokens;
+  delete user.password;
+
+  return user;
 };
 
 module.exports = mongoose.model("User", userSchema);

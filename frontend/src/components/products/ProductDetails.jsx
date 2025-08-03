@@ -3,12 +3,13 @@ import { Helmet } from "react-helmet-async";
 import { toast } from "sonner";
 import ProductsGrid from "./ProductsGrid";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import axiosInstance from "../../axiosInstance/axiosInstance";
 import ProductDetailsSkeleton from "../skeletons/ProductDetailsSkeleton";
 import useCart from "../../store/useCart.js";
 
 const ProductDetails = ({ product }) => {
+  const location = useLocation();
   const [mainImage, setMainImage] = useState(null);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
@@ -74,6 +75,10 @@ const ProductDetails = ({ product }) => {
   return (
     <>
       <Helmet>
+        <link
+          rel="canonical"
+          href={`${window.location.origin}${location.pathname}`}
+        />
         <title>{selectedProduct?.metaTitle || selectedProduct.name}</title>
         <meta
           name="description"

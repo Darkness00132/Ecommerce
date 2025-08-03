@@ -58,14 +58,14 @@ const AdminProducts = () => {
 
       {/* Table */}
       <div className="overflow-x-auto border border-base-300 rounded-xl shadow">
-        <table className="table table-fixed w-full text-sm">
+        <table className="table w-full min-w-[700px] text-sm block overflow-x-auto whitespace-nowrap">
           <thead className="bg-base-200 text-base-content">
-            <tr>
-              <th className="w-1/5">Name</th>
-              <th className="w-1/5">Price</th>
-              <th className="w-1/5">SKU</th>
-              <th className="w-1/5">Count in Stock</th>
-              <th className="w-1/5">Created At</th>
+            <tr className="flex w-full">
+              <th className="flex-1 px-4 py-2">Name</th>
+              <th className="flex-1 px-4 py-2">Price</th>
+              <th className="flex-1 px-4 py-2">SKU</th>
+              <th className="flex-1 px-4 py-2">Stock</th>
+              <th className="flex-1 px-4 py-2">Created At</th>
             </tr>
           </thead>
           <tbody>
@@ -73,21 +73,24 @@ const AdminProducts = () => {
               products.map((product) => (
                 <tr
                   key={product._id}
-                  className="hover:bg-base-100/50 cursor-pointer"
+                  className="flex w-full hover:bg-base-100/50 cursor-pointer"
                   onClick={() => navigate(`${product._id}`)}
                 >
-                  <td className="truncate">{product.name}</td>
-                  <td>${product.price.toFixed(2)}</td>
-                  <td>{product.sku}</td>
-                  <td>{product.countInStock}</td>
-                  <td>
+                  <td className="flex-1 truncate">{product.name}</td>
+                  <td className="flex-1">${product.price}</td>
+                  <td className="flex-1">{product.sku}</td>
+                  <td className="flex-1">{product.countInStock}</td>
+                  <td className="flex-1">
                     {format(new Date(product.createdAt), "yyyy-MM-dd hh:mm a")}
                   </td>
                 </tr>
               ))
             ) : (
-              <tr>
-                <td colSpan={5} className="text-center py-6 text-gray-500">
+              <tr className="flex w-full">
+                <td
+                  colSpan={5}
+                  className="text-center py-6 text-gray-500 w-full"
+                >
                   No products found.
                 </td>
               </tr>

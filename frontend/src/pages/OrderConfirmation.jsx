@@ -2,7 +2,6 @@ import { format } from "date-fns";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "../axiosInstance/axiosInstance";
-import { toast } from "sonner";
 
 const OrderConfirmation = () => {
   const { id } = useParams();
@@ -138,7 +137,7 @@ const OrderConfirmation = () => {
                     Price per unit: ${item.priceAtPurchaseTime}
                   </span>
                   <span className="text-sm font-bold text-primary">
-                    Total: ${totalPrice}
+                    Total: ${item.priceAtPurchaseTime * item.quantity}
                   </span>
                 </div>
               </div>
