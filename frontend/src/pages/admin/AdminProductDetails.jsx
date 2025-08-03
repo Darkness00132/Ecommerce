@@ -2,13 +2,16 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { IoMdClose } from "react-icons/io";
 import axiosInstance from "../../axiosInstance/axiosInstance.js";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { queryClient } from "../../main.jsx";
 import { toast } from "sonner";
+import useAuthUser from "../../store/useAuthUser.js";
+import { FaTrashAlt } from "react-icons/fa";
 
 const AdminProductDetails = () => {
   const { id } = useParams();
-
+  const navigate = useNavigate();
+  const role = useAuthUser((state) => state.role);
   const [images, setImages] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
   const [files, setFiles] = useState([]);
@@ -47,11 +50,22 @@ const AdminProductDetails = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["products", id]);
-      refetch();
+      // refetch();
       setFiles([]);
       setImages([]);
       setExistingImages([]);
       toast.success("Product updated successfully!");
+    },
+    onError: (error) => {
+      toast.error("Something went wrong: " + error.message);
+    },
+  });
+
+  const { mutate: deleteProduct, isPending: isDeleting } = useMutation({
+    mutationFn: async () => {
+      const response = await axiosInstance.delete("/products/" + id);
+      toast.success(response.data.message || "Deleted Succefully");
+      navigate("/admin/products");
     },
     onError: (error) => {
       toast.error("Something went wrong: " + error.message);
@@ -211,6 +225,19 @@ const AdminProductDetails = () => {
           >
             {isUpdating ? "Updating" : "Update Product"}
           </button>
+          {(role === "superAdmin" || role === "owner") && (
+            <button
+              type="button"
+              className={`btn lg:btn-wide btn-error ml-0.5 ${
+                isDeleting ? "btn-disabled" : ""
+              }`}
+              onClick={() => deleteProduct()}
+              disabled={isDeleting}
+            >
+              <FaTrashAlt />
+              Delete
+            </button>
+          )}
         </div>
       </form>
     </div>

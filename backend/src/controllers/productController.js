@@ -156,13 +156,20 @@ productController.getSimilarProducts = asyncHandler(async (req, res) => {
   }
   const { gender, category, brand } = product;
 
-  const products = await Product.find({
+  let products = await Product.find({
     $and: [
       { _id: { $ne: req.params.id } },
       { gender },
       { $or: [{ category }, { brand }] },
     ],
   }).limit(4);
+
+  if (!products || products.length !== 4) {
+    products = await Product.find({
+      _id: { $ne: req.params.id },
+      gender,
+    }).limit(4);
+  }
 
   res.status(200).json({ products });
 });
@@ -220,10 +227,6 @@ productController.makeProduct = asyncHandler(async (req, res) => {
 });
 
 productController.updateProduct = asyncHandler(async (req, res) => {
-  //for postman
-  if (req.body?.data !== undefined) {
-    req.body = JSON.parse(req.body.data);
-  }
   const product = await Product.findById(req.params.id);
   if (!product) {
     return res.status(404).json({ message: "Product not found" });
@@ -289,13 +292,19 @@ productController.updateProduct = asyncHandler(async (req, res) => {
   res.status(200).json({ product: updatedProduct });
 });
 
-// productController.deleteProduct = asyncHandler(async (req, res) => {
-//   const product = await Product.findOneAndDelete({ _id: req.params.id });
+productController.deleteProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
 
-//   if (!product) {
-//     return res.status(404).json({ message: "Product not found" });
-//   }
-//   res.status(200).json({ message: "Product deleted successfully" });
-// });
+  if (!product) {
+    return res.status(404).json({ message: "Product not found" });
+  }
+  const deletedImages = product.images.map((image) =>
+    cloudinary.uploader.destroy(image.public_id)
+  );
+  await Promise.all(deletedImages);
+  await product.deleteOne();
+
+  res.status(200).json({ message: "Product deleted successfully" });
+});
 
 module.exports = productController;

@@ -32,6 +32,6 @@ router.put(
   productController.updateProduct
 );
 
-// router.delete("/:id", auth, admin, productController.deleteProduct);
+router.delete("/:id", verifyCsrf, auth, admin, productController.deleteProduct);
 
 module.exports = router;

@@ -120,7 +120,9 @@ const productSchema = new mogoose.Schema(
 );
 
 productSchema.pre("save", function (next) {
-  this.discountPrice = this.price;
+  if (!this.discountPrice) {
+    this.discountPrice = this.price;
+  }
   next();
 });
 
