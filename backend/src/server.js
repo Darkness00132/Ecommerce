@@ -5,7 +5,6 @@ const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const tokens = require("./utils/csrfTokens.js");
 const rateLimit = require("express-rate-limit");
-const xss = require("xss-clean");
 require("dotenv").config();
 
 const usersRoute = require("./routes/user.route.js");
@@ -35,7 +34,6 @@ app.use(helmet.referrerPolicy({ policy: "no-referrer-when-downgrade" }));
 app.use(
   helmet.hsts({ maxAge: 63072000, includeSubDomains: true, preload: true })
 );
-app.use(xss());
 app.set("trust proxy", 1);
 app.use(
   rateLimit({
