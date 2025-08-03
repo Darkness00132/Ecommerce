@@ -18,22 +18,30 @@ const Navbar = () => {
   const clearCart = useCart((state) => state.clearCart);
 
   const cart = useCart((state) => state.cart);
-
   const numberOfProducts = cart?.products?.length || 0;
 
   return (
     <>
-      <div className="navbar bg-base-200 shadow-md px-4">
+      <div
+        className="navbar bg-base-200 shadow-md px-4"
+        role="navigation"
+        aria-label="Main Navigation"
+      >
         {/* Start (Logo + Mobile Menu) */}
         <div className="navbar-start">
           {/* Mobile dropdown */}
           <div className="dropdown md:hidden">
-            <button tabIndex={0} className="btn btn-ghost btn-circle">
+            <button
+              tabIndex={0}
+              className="btn btn-ghost btn-circle"
+              aria-label="Open menu"
+            >
               <HiBars3BottomRight size={24} />
             </button>
             <ul
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              aria-label="Mobile navigation links"
             >
               <li>
                 <Link
@@ -71,7 +79,11 @@ const Navbar = () => {
           </div>
 
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 text-xl font-bold">
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-xl font-bold"
+            aria-label="Lacoste Home Page"
+          >
             <img
               src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto/v1754112822/My%20Brand/crocodile_rgzngx.png"
               fetchpriority="high"
@@ -84,7 +96,10 @@ const Navbar = () => {
 
         {/* Center Navigation (desktop only) */}
         <div className="navbar-center hidden md:flex">
-          <ul className="menu menu-horizontal px-1 gap-2">
+          <ul
+            className="menu menu-horizontal px-1 gap-2"
+            aria-label="Desktop navigation links"
+          >
             <li>
               <Link
                 to="/collections?collenction=all&gender=Men"
@@ -126,23 +141,36 @@ const Navbar = () => {
             <SearchBar />
           </div>
 
-          {/* Login */}
+          {/* Login or Profile */}
           {!isAuth ? (
-            <Link to="/login" className="btn btn-ghost btn-circle">
+            <Link
+              to="/login"
+              className="btn btn-ghost btn-circle"
+              aria-label="Login"
+            >
               <HiOutlineUser size={24} />
             </Link>
           ) : isAdmin ? (
-            <Link to="/admin" className="btn btn-ghost btn-circle">
+            <Link
+              to="/admin"
+              className="btn btn-ghost btn-circle"
+              aria-label="Admin Dashboard"
+            >
               <HiOutlineUser size={24} />
             </Link>
           ) : (
             <div className="dropdown dropdown-end">
-              <button tabIndex={0} className="btn btn-ghost btn-circle avatar">
+              <button
+                tabIndex={0}
+                className="btn btn-ghost btn-circle avatar"
+                aria-label="User menu"
+              >
                 <HiOutlineUser size={24} />
               </button>
               <ul
                 tabIndex={0}
                 className="mt-3 z-[1] p-2 shadow-lg menu menu-sm dropdown-content bg-white rounded-box w-48"
+                aria-label="User account menu"
               >
                 <li>
                   <Link
@@ -169,14 +197,19 @@ const Navbar = () => {
           )}
 
           {/* Orders */}
-          <Link to="/orders" className="btn btn-ghost btn-circle">
+          <Link
+            to="/orders"
+            className="btn btn-ghost btn-circle"
+            aria-label="Your Orders"
+          >
             <BiHistory size={24} />
           </Link>
 
-          {/* Cart (cart drawer trigger) */}
+          {/* Cart (drawer trigger) */}
           <label
             htmlFor="cart-drawer"
             className="btn btn-ghost btn-circle relative"
+            aria-label="Cart"
           >
             <HiOutlineShoppingBag size={24} />
             {numberOfProducts !== 0 && (
