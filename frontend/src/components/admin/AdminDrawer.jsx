@@ -33,7 +33,7 @@ const AdminDrawer = ({ children }) => {
               className="mx-auto cursor-pointer hover:bg-transparent focus:bg-transparent"
             >
               <img
-                src="https://res.cloudinary.com/dgzqfkqua/image/upload/v1754112822/My%20Brand/crocodile_rgzngx.png"
+                src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto,w_100,dpr_auto/v1754112822/My%20Brand/crocodile_rgzngx.png"
                 alt="Lacoste"
                 className="w-8 h-7"
               />
