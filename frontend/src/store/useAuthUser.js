@@ -146,6 +146,12 @@ const useAuthUser = create(
           set({ isDeletingUser: false });
         }
       },
+      clearUser: () => {
+        set({ user: null });
+        set({ isAuth: false });
+        set({ isAdmin: false });
+        set({ role: null });
+      },
     }),
     {
       name: "auth-storage",
