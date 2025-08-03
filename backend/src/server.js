@@ -22,20 +22,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const sanitizeNoMongo = (input) => {
-  if (typeof input === "object" && input !== null) {
-    for (const key in input) {
-      // delete keys like $gt, $ne, etc
-      if (key.startsWith("$") || key.includes(".")) {
-        delete input[key];
-      } else {
-        input[key] = sanitizeNoMongo(input[key]);
-      }
-    }
-  } else if (typeof input === "string") {
+  if (typeof input === "string") {
     return xss(input);
+  }
+  if (typeof input === "object" && input !== null) {
+    const sanitized = Array.isArray(input) ? [] : {};
+    for (const key in input) {
+      if (key.startsWith("$") || key.includes(".")) continue;
+      sanitized[key] = sanitizeNoMongo(input[key]);
+    }
+    return sanitized;
   }
   return input;
 };
+
 app.use((req, res, next) => {
   req.body = sanitizeNoMongo(req.body);
   req.query = sanitizeNoMongo(req.query);
