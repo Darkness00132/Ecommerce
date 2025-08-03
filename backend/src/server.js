@@ -37,6 +37,8 @@ app.use(
         "'unsafe-inline'",
         "'unsafe-eval'",
         "https://apis.google.com",
+        "https://www.paypal.com",
+        "https://www.paypalobjects.com",
       ],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       styleSrcElem: [
@@ -44,7 +46,11 @@ app.use(
         "'unsafe-inline'",
         "https://fonts.googleapis.com",
       ],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      fontSrc: [
+        "'self'",
+        "https://fonts.gstatic.com",
+        "https://www.paypal.com",
+      ],
       imgSrc: ["'self'", "data:", "blob:", "https:"],
       connectSrc: [
         "'self'",
