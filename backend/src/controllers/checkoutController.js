@@ -1,7 +1,9 @@
 const asyncHandler = require("../utils/asyncHandler.js");
+const paypalCheck = require("../utils/paypalCheck.js");
 const Checkout = require("../models/checkout.model.js");
 const Cart = require("../models/cart.model.js");
 const Order = require("../models/order.model.js");
+const Product = require("../models/product.model.js");
 
 let checkoutController = {};
 
@@ -30,7 +32,8 @@ checkoutController.makeCheckout = asyncHandler(async (req, res) => {
 });
 
 checkoutController.updateCheckout = asyncHandler(async (req, res) => {
-  const { paymentStatus, paymentDetails } = req.body;
+  const { orderID, paymentDetails } = req.body;
+
   const checkout = await Checkout.findById(req.params.id);
   if (!checkout) {
     return res.status(404).json({ message: "Checkout not found" });
@@ -38,15 +41,19 @@ checkoutController.updateCheckout = asyncHandler(async (req, res) => {
   if (checkout.user.toString() !== req.user._id.toString()) {
     return res.status(403).json({ message: "Not authorized" });
   }
-  if (paymentStatus !== "COMPLETED") {
-    return res.status(400).json({ message: "Invalid Payment Status" });
-  }
   if (checkout.isPaid) {
     return res.status(400).json({ message: "You already paid" });
   }
+
+  const paymentStatus = await paypalCheck(orderID);
+
+  if (!paymentStatus) {
+    return res.status(400).json({ message: "Payment not verified" });
+  }
+
   checkout.isPaid = true;
   checkout.paidAt = Date.now();
-  checkout.paymentStatus = paymentStatus;
+  checkout.paymentStatus = paymentStatus ? "Paid" : "Not Paid";
   checkout.paymentDetails = paymentDetails;
   await checkout.save();
 
@@ -62,6 +69,14 @@ checkoutController.makeOrder = asyncHandler(async (req, res) => {
     return res.status(403).json({ message: "Not authorized" });
   }
   if (checkout.isPaid && !checkout.isFinalized) {
+    await Product.bulkWrite(
+      checkout.checkoutItems.map((item) => ({
+        updateOne: {
+          filter: { _id: item.product },
+          update: { $inc: { countInStock: -item.quantity } },
+        },
+      }))
+    );
     const order = await Order.create({
       user: checkout.user,
       orderItems: checkout.checkoutItems,

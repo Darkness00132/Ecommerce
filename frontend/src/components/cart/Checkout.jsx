@@ -110,23 +110,14 @@ const Checkout = () => {
                 <PaypalButton
                   amount={total}
                   onSuccess={async (details) => {
-                    try {
-                      const paid = await makePayment({
-                        paymentStatus: details.status,
-                        paymentDetails: details,
-                        checkoutID,
-                      });
-                      if (!paid) return toast.error("Payment failed.");
-                      const orderID = await makeOrder(checkoutID);
-                      if (!orderID)
-                        return toast.error("Order creation failed.");
-                      navigate(`/orderConfirmation/${orderID}`);
-                    } catch (err) {
-                      console.error("Payment/onSuccess error:", err);
-                      toast.error(
-                        "Something went wrong while processing your order."
-                      );
-                    }
+                    const paid = await makePayment({
+                      paymentDetails: details,
+                      orderID: details.id,
+                      checkoutID,
+                    });
+                    if (!paid) return toast.error("Payment failed.");
+                    const orderID = await makeOrder(checkoutID);
+                    if (orderID) navigate(`/orderConfirmation/${orderID}`);
                   }}
                   onError={(err) => {
                     console.error("Payment error:", err);

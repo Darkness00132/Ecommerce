@@ -23,9 +23,9 @@ const AdminProductDetails = () => {
     },
     onSuccess: (data) => {
       toast.success("Product created successfully!");
-      //formRef.current?.reset();
-      //setImages([]);
-      //setFiles([]);
+      formRef.current?.reset();
+      setImages([]);
+      setFiles([]);
     },
     onError: (error) => {
       console.log("Something went wrong: " + error.message);

@@ -5,7 +5,7 @@ const OPTIONS = {
   category: ["Top Wear", "Bottom Wear"],
   gender: ["Men", "Woman"],
   size: ["XS", "S", "M", "L", "XL", "XXL"],
-  color: [
+  colors: [
     "Black",
     "White",
     "Navy",
@@ -42,7 +42,7 @@ const FilterSideBar = () => {
     category: [],
     gender: [],
     size: [],
-    color: [],
+    colors: [],
     material: [],
     brand: [],
     minPrice: 0,
@@ -59,7 +59,7 @@ const FilterSideBar = () => {
       category: parseParams("category"),
       gender: parseParams("gender"),
       size: parseParams("size"),
-      color: parseParams("color"),
+      colors: parseParams("colors"),
       material: parseParams("material"),
       brand: parseParams("brand"),
       minPrice: Number(searchParams.get("minPrice")) || 0,
@@ -124,7 +124,29 @@ const FilterSideBar = () => {
       {renderCheckboxGroup("Category", "category")}
       {renderCheckboxGroup("Gender", "gender")}
       {renderCheckboxGroup("Size", "size")}
-      {renderCheckboxGroup("Colors", "color")}
+      <div className="mb-4">
+        <h3 className="font-bold mb-2">Colors: </h3>
+        <div className="flex flex-wrap gap-2">
+          {OPTIONS["colors"].map((color) => {
+            const isSelected = form["colors"].includes(color);
+            return (
+              <button
+                key={color}
+                type="button"
+                onClick={() => handleCheckboxChange("colors", color)}
+                className={`w-8 h-8 rounded-full border-2 transition-transform duration-150 ${
+                  isSelected ? "border-black scale-110" : "border-gray-300"
+                }`}
+                style={{
+                  backgroundColor: color.toLowerCase(),
+                  filter: isSelected ? "brightness(0.8)" : "brightness(0.5)",
+                }}
+                title={color}
+              ></button>
+            );
+          })}
+        </div>
+      </div>
       {renderCheckboxGroup("Material", "material")}
       {renderCheckboxGroup("Brand", "brand")}
 

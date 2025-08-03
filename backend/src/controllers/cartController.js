@@ -38,7 +38,8 @@ cartController.addProductToCart = asyncHandler(async (req, res) => {
     quantity,
     size,
     color,
-    priceAtPurchaseTime: product.discountPrice || product.price,
+    priceAtPurchaseTime: product.discountPrice,
+    originalPrice: product.price,
   };
 
   if (!cart) {

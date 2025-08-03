@@ -70,8 +70,9 @@ function App() {
       <Toaster
         richColors
         position="top-center"
+        expand={true}
         toastOptions={{
-          duration: 2000,
+          duration: 2500,
           style: {
             fontSize: "1rem",
           },

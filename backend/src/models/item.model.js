@@ -26,6 +26,10 @@ const ItemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  originalPrice: {
+    type: Number,
+    required: true,
+  },
   priceAtPurchaseTime: {
     type: Number,
     required: true,

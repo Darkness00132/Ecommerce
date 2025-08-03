@@ -32,8 +32,6 @@ const allowedFields = [
 let productController = {};
 
 productController.getProducts = asyncHandler(async (req, res) => {
-  const userQueries = {};
-
   const {
     category,
     collection,
@@ -46,35 +44,28 @@ productController.getProducts = asyncHandler(async (req, res) => {
     search,
     material,
     brand,
+    page = 1,
+    limit = 10,
   } = req.query;
 
-  if (collection && collection.toLowerCase() !== "all") {
-    userQueries.collection = collection;
-  }
+  const userQueries = {};
 
-  if (category && category.toLowerCase() !== "all") {
+  // Filters
+  if (collection && collection.toLowerCase() !== "all")
+    userQueries.collections = collection;
+
+  if (category && category.toLowerCase() !== "all")
     userQueries.category = category;
-  }
 
-  if (material) {
-    userQueries.material = { $in: material.split(",") };
-  }
+  if (gender) userQueries.gender = gender;
 
-  if (brand) {
-    userQueries.brand = { $in: brand.split(",") };
-  }
+  if (material) userQueries.material = { $in: material.split(",") };
 
-  if (sizes) {
-    userQueries.sizes = { $in: sizes.split(",") };
-  }
+  if (brand) userQueries.brand = { $in: brand.split(",") };
 
-  if (colors) {
-    userQueries.colors = { $in: colors.split(",") };
-  }
+  if (sizes) userQueries.sizes = { $in: sizes.split(",") };
 
-  if (gender) {
-    userQueries.gender = gender;
-  }
+  if (colors) userQueries.colors = { $in: colors.split(",") };
 
   if (minPrice || maxPrice) {
     userQueries.discountPrice = {};
@@ -90,43 +81,27 @@ productController.getProducts = asyncHandler(async (req, res) => {
     ];
   }
 
-  let sort;
-  if (sortBy) {
-    switch (sortBy) {
-      case "priceASC":
-        sort = { price: 1 };
-        break;
-      case "priceDESC":
-        sort = { price: -1 };
-        break;
-      case "popularity":
-        sort = { rating: -1, numReviews: -1 };
-        break;
-      case "stockASC":
-        sort = { countInStock: 1 };
-        break;
-      case "stockDESC":
-        sort = { countInStock: -1 };
-        break;
-      default:
-        sort = { createdAt: -1 };
-        break;
-    }
-  }
+  // Sorting
+  const sortOptions = {
+    priceASC: { price: 1 },
+    priceDESC: { price: -1 },
+    popularity: { rating: -1, numReviews: -1 },
+    stockASC: { countInStock: 1 },
+    stockDESC: { countInStock: -1 },
+  };
 
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10;
+  const sort = sortOptions[sortBy] || { createdAt: -1 };
 
-  const skip = (page - 1) * limit;
+  const skip = (Number(page) - 1) * Number(limit);
   const totalProducts = await Product.countDocuments(userQueries);
 
   const products = await Product.find(userQueries)
     .sort(sort)
-    .limit(Number(limit) || 0)
+    .limit(Number(limit))
     .skip(skip);
 
   res.status(200).json({
-    page,
+    page: Number(page),
     products,
     totalPages: Math.ceil(totalProducts / limit),
     totalProducts,
@@ -164,7 +139,7 @@ productController.getSimilarProducts = asyncHandler(async (req, res) => {
     ],
   }).limit(4);
 
-  if (!products || products.length !== 4) {
+  if (!products || products.length < 3) {
     products = await Product.find({
       _id: { $ne: req.params.id },
       gender,
@@ -175,10 +150,6 @@ productController.getSimilarProducts = asyncHandler(async (req, res) => {
 });
 
 productController.makeProduct = asyncHandler(async (req, res) => {
-  //for postman
-  if (req.body?.data !== undefined) {
-    req.body = JSON.parse(req.body.data);
-  }
   const filteredBody = {};
   for (const key of allowedFields) {
     if (req.body[key] !== undefined) {

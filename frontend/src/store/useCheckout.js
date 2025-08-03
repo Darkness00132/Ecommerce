@@ -14,7 +14,6 @@ const useCheckout = create((set, get) => ({
         paymentMethod,
       });
       set({ checkoutID: res.data.checkoutID });
-      toast.success("Checkout initiated successfully ✅");
       return true;
     } catch (err) {
       console.error("Checkout error:", err?.response?.data || err.message);
@@ -28,11 +27,11 @@ const useCheckout = create((set, get) => ({
     }
   },
 
-  makePayment: async ({ paymentStatus, paymentDetails, checkoutID }) => {
+  makePayment: async ({ paymentDetails, orderID, checkoutID }) => {
     try {
       await axiosInstance.put(`/checkout/${checkoutID}/pay`, {
-        paymentStatus,
         paymentDetails,
+        orderID,
       });
       toast.success("Payment processed successfully 💳");
       return true;
