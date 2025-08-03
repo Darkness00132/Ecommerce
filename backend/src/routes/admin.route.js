@@ -4,6 +4,8 @@ const auth = require("../middleware/auth.js");
 const verifyCsrf = require("../middleware/csrf.js");
 const { admin, superAdmin } = require("../middleware/admin.js");
 
+router.get("/dashboard", auth, admin, adminController.getAdminDashboardStats);
+
 router.get("/users", auth, admin, adminController.getUsers);
 
 router.post("/", verifyCsrf, auth, superAdmin, adminController.makeUser);

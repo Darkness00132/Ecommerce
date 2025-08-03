@@ -1,18 +1,47 @@
-const mockOrders = [
-  {
-    id: 1,
-    user: {
-      name: "john",
-      email: "example@gmail.com",
-    },
-    totalPrice: 110,
-    status: "Processing",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import axiosInstance from "../../axiosInstance/axiosInstance";
 import { Link } from "react-router-dom";
-import { FaBoxOpen, FaDollarSign, FaClipboardList } from "react-icons/fa";
+import {
+  FaBoxOpen,
+  FaDollarSign,
+  FaClipboardList,
+  FaUsers,
+} from "react-icons/fa";
 
 const AdminDashboard = () => {
+  const {
+    data: stats,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["adminDashboard"],
+    queryFn: async () => {
+      const { data } = await axiosInstance.get("/admin/dashboard");
+      return data;
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <span className="loading loading-spinner text-primary w-12 h-12"></span>
+        <p className="ml-4 text-lg text-primary">Loading dashboard...</p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex flex-col items-center justify-center h-64 text-center">
+        <p className="text-red-500 text-xl font-semibold mb-2">
+          Failed to load dashboard.
+        </p>
+        <p className="text-sm text-gray-500">{error.message}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-7xl mx-auto p-6">
       <h1 className="text-4xl font-bold text-base-content mb-10">
@@ -26,7 +55,7 @@ const AdminDashboard = () => {
             <FaDollarSign className="text-success text-3xl" />
             <div>
               <h2 className="text-sm font-medium">Revenue</h2>
-              <p className="text-2xl font-bold">$1,000</p>
+              <p className="text-2xl font-bold">${stats.revenue}</p>
             </div>
           </div>
           <span className="self-end text-sm text-gray-400">Updated Today</span>
@@ -38,7 +67,7 @@ const AdminDashboard = () => {
             <FaClipboardList className="text-primary text-3xl" />
             <div>
               <h2 className="text-sm font-medium">Total Orders</h2>
-              <p className="text-2xl font-bold">200</p>
+              <p className="text-2xl font-bold">{stats.totalOrders}</p>
             </div>
           </div>
           <Link
@@ -55,7 +84,7 @@ const AdminDashboard = () => {
             <FaBoxOpen className="text-warning text-3xl" />
             <div>
               <h2 className="text-sm font-medium">Total Products</h2>
-              <p className="text-2xl font-bold">200</p>
+              <p className="text-2xl font-bold">{stats.totalProducts}</p>
             </div>
           </div>
           <Link
@@ -65,55 +94,21 @@ const AdminDashboard = () => {
             Manage Products →
           </Link>
         </div>
-      </div>
-      <div className="mt-6 overflow-x-auto border border-base-300 rounded-xl shadow">
-        <table className="table w-full text-sm min-w-[700px]">
-          <thead className="bg-base-200 text-base-content">
-            <tr>
-              <th>Order ID</th>
-              <th>Customer</th>
-              <th>Total</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {mockOrders.length > 0 ? (
-              mockOrders.map((order) => (
-                <tr
-                  key={order.id}
-                  className="hover:bg-base-100/50 cursor-pointer"
-                  onClick={() => navigate(`/order/${order.id}`)}
-                >
-                  <td className="font-medium whitespace-nowrap">#{order.id}</td>
-                  <td>
-                    <p className="font-semibold">{order.user.name}</p>
-                    <p className="text-sm text-gray-500">{order.user.email}</p>
-                  </td>
-                  <td>${order.totalPrice.toFixed(2)}</td>
-                  <td>
-                    <span
-                      className={`badge font-medium ${
-                        order.status === "Processing"
-                          ? "badge-warning"
-                          : order.status === "Completed"
-                          ? "badge-success"
-                          : "badge-ghost"
-                      }`}
-                    >
-                      {order.status}
-                    </span>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={3} className="text-center py-6 text-gray-500">
-                  No orders yet.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+        <div className="bg-base-100 rounded-2xl border border-base-300 shadow-sm p-5 flex flex-col justify-between">
+          <div className="flex items-center gap-4 mb-2">
+            <FaUsers className="text-info text-3xl" />
+            <div>
+              <h2 className="text-sm font-medium">Total Users</h2>
+              <p className="text-2xl font-bold">{stats.totalUsers}</p>
+            </div>
+          </div>
+          <Link
+            to="/admin/users"
+            className="self-end text-sm font-medium text-primary hover:text-primary/80"
+          >
+            View Users →
+          </Link>
+        </div>
       </div>
     </div>
   );

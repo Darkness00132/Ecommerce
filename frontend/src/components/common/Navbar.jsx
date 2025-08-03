@@ -173,14 +173,6 @@ const Navbar = () => {
                 aria-label="User account menu"
               >
                 <li>
-                  <Link
-                    to="/change-password"
-                    className="text-sm py-2 px-4 hover:bg-gray-100 rounded-md transition"
-                  >
-                    Change Password
-                  </Link>
-                </li>
-                <li>
                   <button
                     onClick={async () => {
                       await logout();

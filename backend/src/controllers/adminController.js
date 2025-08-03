@@ -1,6 +1,26 @@
 const asyncHandler = require("../utils/asyncHandler");
 const User = require("../models/user.model.js");
+const Product = require("../models/product.model.js");
+const Order = require("../models/order.model.js");
+
 let adminController = {};
+
+adminController.getAdminDashboardStats = asyncHandler(async (req, res) => {
+  const totalOrders = await Order.countDocuments();
+  const totalProducts = await Product.countDocuments();
+
+  const paidOrders = await Order.find({ isPaid: true });
+  const revenue = paidOrders.reduce((acc, order) => acc + order.totalPrice, 0);
+
+  const totalUsers = await User.countDocuments();
+
+  res.json({
+    totalOrders,
+    totalProducts,
+    totalUsers,
+    revenue,
+  });
+});
 
 adminController.getUsers = asyncHandler(async (req, res) => {
   const { search = "" } = req.query;
