@@ -44,6 +44,24 @@ function App() {
     getCsrfToken();
   }, []);
 
+  const { refetch } = useQuery({
+    queryKey: ["user"],
+    queryFn: async () => {
+      const response = await axiosInstance.get("/users/profile");
+      const user = response.data?.user;
+      if (user) setCheck(user);
+      return user;
+    },
+    enabled: false,
+    retry: false,
+  });
+
+  useEffect(() => {
+    if (!isAuth) {
+      refetch();
+    }
+  }, [isAuth]);
+
   return (
     <BrowserRouter>
       <Toaster
