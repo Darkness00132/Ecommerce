@@ -5,7 +5,7 @@ const Hero = () => {
     <section className="relative w-full overflow-hidden bg-base-100">
       {/* Hero image */}
       <img
-        src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto,w_1500/hero_mowl1k.jpg"
+        src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto,w_auto,dpr_auto/hero_mowl1k.jpg"
         alt="Adventure background"
         fetchpriority="high"
         className="w-full h-[500px] md:h-[700px] object-cover"
