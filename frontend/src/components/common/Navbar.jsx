@@ -85,7 +85,7 @@ const Navbar = () => {
             aria-label="Lacoste Home Page"
           >
             <img
-              src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto,w_auto,dpr_auto/v1754112822/My%20Brand/crocodile_rgzngx.png"
+              src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto,w_100,dpr_auto/v1754112822/My%20Brand/crocodile_rgzngx.png"
               fetchpriority="high"
               alt="Lacoste Logo"
               className="w-7 h-7"

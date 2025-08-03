@@ -27,7 +27,7 @@ const FeaturedCollections = () => {
         <div className="lg:w-1/2">
           <div className="w-full overflow-hidden aspect-[4/3] sm:aspect-[5/4] lg:h-[500px]">
             <img
-              src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto,w_auto,dpr_auto/v1754111616/featured_mqm1l7.jpg"
+              src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto,w_1000,dpr_auto/v1754111616/featured_mqm1l7.jpg"
               alt="Featured Collection"
               className="w-full h-full object-cover lg:rounded-r-3xl lg:rounded-br-3xl sm:rounded-t-lg"
             />
