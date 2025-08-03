@@ -26,7 +26,7 @@ const CartContext = () => {
       console.log(e);
       toast.error(e?.response?.data?.message || "Failed to load your cart.");
     },
-    enabled: isAuth || !!guestID,
+    enabled: isAuth || typeof guestID === "string",
   });
   if (isLoading) {
     return (
