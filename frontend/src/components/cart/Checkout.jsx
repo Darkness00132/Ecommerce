@@ -14,6 +14,7 @@ const Checkout = () => {
   }, [isAuth]);
 
   const cart = useCart((state) => state.cart);
+  const clearCart = useCart((state) => state.clearCart);
   const isMakingCheckout = useCheckout((state) => state.isMakingCheckout);
   const makePayment = useCheckout((state) => state.makePayment);
   const makeCheckout = useCheckout((state) => state.makeCheckout);
@@ -117,7 +118,10 @@ const Checkout = () => {
                     });
                     if (!paid) return toast.error("Payment failed.");
                     const orderID = await makeOrder(checkoutID);
-                    if (orderID) navigate(`/orderConfirmation/${orderID}`);
+                    if (orderID) {
+                      clearCart();
+                      navigate(`/orderConfirmation/${orderID}`);
+                    }
                   }}
                   onError={(err) => {
                     console.error("Payment error:", err);

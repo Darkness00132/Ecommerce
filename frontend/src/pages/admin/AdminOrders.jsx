@@ -63,8 +63,8 @@ const AdminOrders = () => {
           className="select select-bordered w-full sm:w-40"
         >
           <option value="">All Statuses</option>
-          <option value="Pending">Pending</option>
           <option value="Paid">Paid</option>
+          <option value="Shipped">Shipped</option>
           <option value="Delivered">Delivered</option>
           <option value="Cancelled">Cancelled</option>
         </select>
