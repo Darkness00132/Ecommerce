@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const tokens = require("./utils/csrfTokens.js");
 const rateLimit = require("express-rate-limit");
+const xss = require("xss");
 require("dotenv").config();
 
 const usersRoute = require("./routes/user.route.js");
@@ -17,6 +18,31 @@ const adminRoute = require("./routes/admin.route.js");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const sanitizeNoMongo = (input) => {
+  if (typeof input === "object" && input !== null) {
+    for (const key in input) {
+      // delete keys like $gt, $ne, etc
+      if (key.startsWith("$") || key.includes(".")) {
+        delete input[key];
+      } else {
+        input[key] = sanitizeNoMongo(input[key]);
+      }
+    }
+  } else if (typeof input === "string") {
+    return xss(input);
+  }
+  return input;
+};
+app.use((req, res, next) => {
+  req.body = sanitizeNoMongo(req.body);
+  req.query = sanitizeNoMongo(req.query);
+  req.params = sanitizeNoMongo(req.params);
+  next();
+});
+
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
@@ -24,9 +50,6 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
-console.log("CORS middleware initialized with:", process.env.FRONTEND_URL);
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SECRET_COOKIE));
 app.use(helmet.noSniff());
 app.use(helmet.dnsPrefetchControl({ allow: false }));
