@@ -7,7 +7,7 @@ const GenderCollection = () => {
         {/* Women's Collection */}
         <div className="relative flex-1 group overflow-hidden rounded-2xl shadow-md">
           <img
-            src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto,w_1000/v1754111603/womens-collection_qdvwsb.jpg"
+            src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto,w_900,dpr_auto/v1754111603/womens-collection_qdvwsb.jpg"
             alt="Women's Collection"
             fetchpriority="high"
             className="w-full aspect-[3/4] object-cover transform transition duration-300 group-hover:scale-105"
@@ -28,7 +28,7 @@ const GenderCollection = () => {
         {/* Men's Collection */}
         <div className="relative flex-1 group overflow-hidden rounded-2xl shadow-md">
           <img
-            src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto,w_1000/v1754111608/mens-collection_f4oqcj.jpg"
+            src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto,w_900,dpr_auto/v1754111608/mens-collection_f4oqcj.jpg"
             alt="Men's Collection"
             fetchpriority="high"
             className="w-full aspect-[3/4] object-cover transform transition duration-300 group-hover:scale-105"
