@@ -51,14 +51,27 @@ app.use(
         "https://fonts.gstatic.com",
         "https://www.paypal.com",
       ],
-      imgSrc: ["'self'", "data:", "blob:", "https:"],
+      imgSrc: [
+        "'self'",
+        "data:",
+        "blob:",
+        "https:",
+        "https://res.cloudinary.com",
+        "https://www.paypalobjects.com",
+      ],
       connectSrc: [
         "'self'",
         "https://lacost-ecommerce.vercel.app",
         "https://lacostapi.vercel.app",
+        "https://www.paypal.com",
+        "https://www.sandbox.paypal.com",
       ],
       objectSrc: ["'none'"],
-      frameAncestors: ["'self'"],
+      frameAncestors: [
+        "'self'",
+        "https://www.paypal.com",
+        "https://www.sandbox.paypal.com",
+      ],
     },
   })
 );
