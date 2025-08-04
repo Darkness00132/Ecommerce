@@ -30,7 +30,7 @@ const Checkout = () => {
     phone: "",
   });
 
-  const subtotal = cart.products.reduce(
+  const subtotal = cart?.products.reduce(
     (acc, item) => acc + item.priceAtPurchaseTime * item.quantity,
     0
   );
@@ -150,7 +150,7 @@ const Checkout = () => {
           <h2 className="text-3xl font-bold mb-8 uppercase">Order Summary</h2>
 
           <div className="space-y-5 overflow-y-auto flex-grow">
-            {cart.products.map((item) => {
+            {cart?.products.map((item) => {
               const itemTotal = item.priceAtPurchaseTime * item.quantity;
               return (
                 <div

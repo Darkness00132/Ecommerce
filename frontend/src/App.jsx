@@ -1,9 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, lazy, Suspense } from "react";
 import axiosInstance from "./axiosInstance/axiosInstance";
-import useAuthUser from "./store/useAuthUser";
 import UserLayout from "./components/layout/UserLayout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -43,25 +41,6 @@ function App() {
 
     getCsrfToken();
   }, []);
-
-  const isAuth = useAuthUser((state) => state.isAuth);
-  const { refetch } = useQuery({
-    queryKey: ["user"],
-    queryFn: async () => {
-      const response = await axiosInstance.get("/users/profile");
-      const user = response.data?.user;
-      if (user) setCheck(user);
-      return user;
-    },
-    enabled: false,
-    retry: false,
-  });
-
-  useEffect(() => {
-    if (!isAuth) {
-      refetch();
-    }
-  }, [isAuth]);
 
   return (
     <BrowserRouter>

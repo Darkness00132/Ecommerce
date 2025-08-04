@@ -56,7 +56,7 @@ const userSchema = new mongoose.Schema(
         createdAt: {
           type: Date,
           default: Date.now,
-          expires: 60 * 60 * 24 * 30, // 30 days in seconds
+          expires: 60 * 60 * 24 * 7, // 7 days in seconds
         },
       },
     ],
@@ -81,7 +81,7 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 
 userSchema.methods.generateAuthToken = async function () {
   const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: "30d",
+    expiresIn: "7d",
   });
 
   this.tokens = this.tokens.concat({ token });
