@@ -5,6 +5,10 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import en from "./locales/en.json";
 import ar from "./locales/ar.json";
 
+const savedLang = localStorage.getItem("lang") || "en";
+document.documentElement.dir = savedLang === "ar" ? "rtl" : "ltr";
+document.documentElement.lang = savedLang;
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -13,7 +17,8 @@ i18n
       en: { translation: en },
       ar: { translation: ar },
     },
-    fallbackLng: "ar",
+    lng: savedLang,
+    fallbackLng: "en",
     interpolation: {
       escapeValue: false,
     },

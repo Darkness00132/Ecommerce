@@ -100,27 +100,55 @@ app.use("/api/checkout", checkoutRoute);
 app.use("/api/orders/", orderRoute);
 app.use("/api/admin/", adminRoute);
 
-// Middleware for handling errors
+// Global Error Handler Middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error("🔥 Error:", err);
 
-  // Handle Mongoose validation errors (status 400)
+  // Mongoose Validation Error
   if (err.name === "ValidationError") {
+    const errors = Object.values(err.errors).map((e) => ({
+      field: e.path,
+      message: e.message,
+    }));
+
     return res.status(400).json({
-      message: err.message,
+      message: "Validation failed",
+      errors,
     });
   }
 
-  // Handle duplicate key errors (status 409)
-  if (err.code === 11000) {
+  // MongoDB Duplicate Key Error
+  if (err.code === 11000 || err.code === "E11000") {
+    const field = Object.keys(err.keyValue)[0];
+    const value = err.keyValue[field];
+
     return res.status(409).json({
-      message: "Duplicate key error (e.g., email already exists)",
+      message: `Duplicate value for field '${field}': '${value}'`,
+      field,
+      value,
     });
   }
 
-  // Default to 500 if no status is set
-  res.status(err.status || 500).json({
-    message: err.message || "Internal Server Error",
+  // Cast Error (e.g. invalid ObjectId)
+  if (err.name === "CastError") {
+    return res.status(400).json({
+      message: `Invalid value for '${err.path}': ${err.value}`,
+    });
+  }
+
+  // JWT error
+  if (err.name === "JsonWebTokenError") {
+    return res.status(401).json({ message: "Invalid token" });
+  }
+
+  // Token expired
+  if (err.name === "TokenExpiredError") {
+    return res.status(401).json({ message: "Token has expired" });
+  }
+
+  // Fallback Error
+  return res.status(err.status || 500).json({
+    message: err.message || "Something went wrong",
   });
 });
 

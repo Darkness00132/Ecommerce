@@ -3,7 +3,13 @@
     "section1": "Men",
     "section2": "Woman",
     "section3": "Top Wear",
-    "section4": "Bottom Wear"
+    "section4": "Bottom Wear",
+    "shop": "shop",
+    "language": "language",
+    "user": "user",
+    "orders": "orders",
+    "profile": "profile",
+    "logout": "logout"
   },
   "hero": {
     "title": "Adventure Awaits",

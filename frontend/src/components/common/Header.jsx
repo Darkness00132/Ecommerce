@@ -10,7 +10,7 @@ import ProfileButton from "./ProfileButton";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 const Header = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const cart = useCart((state) => state.cart);
   const numberOfProducts = cart?.products?.length || 0;
 
@@ -21,9 +21,25 @@ const Header = () => {
         role="navigation"
         aria-label="Main Navigation"
       >
-        <MobileMenu />
+        {/* Mobile Navbar */}
+        <MobileMenu key={i18n.language} numberOfProducts={numberOfProducts} />
 
-        {/* Center Navigation (desktop only) */}
+        {/* LEFT SIDE */}
+        <div className="hidden md:flex navbar-start gap-2">
+          {/* Logo (visible on md and up) */}
+          <div className="hidden md:flex items-center">
+            <Link to="/" className="flex items-center gap-2 text-xl font-bold">
+              <img
+                src="https://res.cloudinary.com/dgzqfkqua/image/upload/f_auto,q_auto,w_100,dpr_auto/v1754112822/My%20Brand/crocodile_rgzngx.png"
+                alt="Lacoste Logo"
+                className="w-7 h-7"
+              />
+              <span>Lacoste</span>
+            </Link>
+          </div>
+        </div>
+
+        {/* CENTER (navbar-center): Desktop nav links */}
         <div className="navbar-center hidden md:flex">
           <ul
             className="menu menu-horizontal px-1 gap-2"
@@ -64,19 +80,16 @@ const Header = () => {
           </ul>
         </div>
 
-        <div className="navbar-end gap-2">
-          {/* Language Toggle Button */}
+        {/* RIGHT SIDE (navbar-end) */}
+        <div className="hidden md:flex navbar-end gap-2">
           <LanguageSwitcher />
 
-          {/* SearchBar only for large screens and up */}
           <div className="hidden lg:block">
             <SearchBar />
           </div>
 
-          {/* Login or Profile */}
           <ProfileButton />
 
-          {/* Orders */}
           <Link
             to="/orders"
             className="btn btn-ghost btn-circle"
@@ -85,7 +98,6 @@ const Header = () => {
             <BiHistory size={24} />
           </Link>
 
-          {/* Cart (drawer trigger) */}
           <label
             htmlFor="cart-drawer"
             className="btn btn-ghost btn-circle relative"
