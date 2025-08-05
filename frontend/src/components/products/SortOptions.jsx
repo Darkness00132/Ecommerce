@@ -1,7 +1,9 @@
 import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const SortOptions = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { t } = useTranslation();
 
   const currentSort = searchParams.get("sortBy") || "";
 
@@ -21,17 +23,17 @@ const SortOptions = () => {
   return (
     <div className="form-control w-full max-w-xs mb-4">
       <label className="label">
-        <span className="label-text text-base-content">Sort By</span>
+        <span className="label-text text-base-content">{t("sort.label")}</span>
       </label>
       <select
         value={currentSort}
         onChange={handleChange}
         className="select select-bordered select-info w-full"
       >
-        <option value="">Default</option>
-        <option value="priceASC">Price: Low to High</option>
-        <option value="priceDESC">Price: High to Low</option>
-        <option value="popularity">Popularity</option>
+        <option value="">{t("sort.default")}</option>
+        <option value="priceASC">{t("sort.priceASC")}</option>
+        <option value="priceDESC">{t("sort.priceDESC")}</option>
+        <option value="popularity">{t("sort.popularity")}</option>
       </select>
     </div>
   );

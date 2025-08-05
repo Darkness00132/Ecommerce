@@ -7,8 +7,11 @@ import axiosInstance from "../axiosInstance/axiosInstance";
 import { useLocation } from "react-router-dom";
 import CollectionSkeleton from "../components/skeletons/CollectionSkeleton";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 const Collection = () => {
+  const { t } = useTranslation();
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -18,6 +21,7 @@ const Collection = () => {
     data: products,
     isFetching,
     isError,
+    error,
   } = useQuery({
     queryKey: ["products", location.search],
     queryFn: async () => {
@@ -31,7 +35,7 @@ const Collection = () => {
   if (isError) {
     return (
       <div className="text-center text-red-500 mt-10">
-        Failed to load products: {error.message}
+        {t("collection.fetchError")}: {error.message}
       </div>
     );
   }
@@ -50,19 +54,21 @@ const Collection = () => {
             className="btn btn-sm btn-primary gap-2"
           >
             <FaFilter />
-            Filters
+            {t("collection.filters")}
           </label>
         </div>
 
         {/* Right Section */}
         <div className="flex-grow p-4">
-          <h2 className="text-2xl uppercase mb-4">All Collection</h2>
-          {/** Sort Options */}
+          <h2 className="text-2xl uppercase mb-4">{t("collection.title")}</h2>
+
+          {/* Sort Options */}
           <SortOptions />
-          {/** Product Grid */}
+
+          {/* Product Grid */}
           {products.length === 0 ? (
             <div className="text-center text-gray-500 text-lg mt-10">
-              No products found.
+              {t("collection.noProducts")}
             </div>
           ) : (
             <ProductsGrid products={products} />

@@ -3,6 +3,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { HelmetProvider } from "react-helmet-async";
 import "./index.css";
 import App from "./App.jsx";
+import "./i18n";
 
 export const queryClient = new QueryClient();
 

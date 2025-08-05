@@ -4,8 +4,11 @@ import axiosInstance from "../../axiosInstance/axiosInstance";
 import useCart from "../../store/useCart.js";
 import useAuthUser from "../../store/useCart.js";
 import { FiShoppingCart } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 const CartContext = () => {
+  const { t } = useTranslation();
   const guestID = useCart((state) => state.guestID);
   const setCart = useCart((state) => state.setCart);
   const cart = useCart((state) => state.cart);
@@ -14,6 +17,7 @@ const CartContext = () => {
   const isUpdatingQuantity = useCart((state) => state.isUpdatingQuantity);
   const updateQuantity = useCart((state) => state.updateQuantity);
   const isAuth = useAuthUser((state) => state.isAuth);
+
   const { isLoading } = useQuery({
     queryKey: ["cart", isAuth, guestID],
     queryFn: async () => {
@@ -24,15 +28,16 @@ const CartContext = () => {
     },
     onError: (e) => {
       console.log(e);
-      toast.error(e?.response?.data?.message || "Failed to load your cart.");
+      toast.error(e?.response?.data?.message || t("cart.error"));
     },
     enabled: isAuth || typeof guestID === "string",
   });
+
   if (isLoading) {
     return (
       <div className="alert alert-info flex items-center gap-2">
         <span className="loading loading-spinner loading-sm"></span>
-        <span>Loading your cart...</span>
+        <span>{t("cart.loading")}</span>
       </div>
     );
   }
@@ -42,11 +47,9 @@ const CartContext = () => {
       <div className="flex flex-col items-center justify-center h-60 text-center space-y-3">
         <FiShoppingCart size={48} className="text-base-content/60" />
         <p className="text-lg font-semibold text-base-content/80">
-          Your cart is empty
+          {t("cart.empty")}
         </p>
-        <p className="text-sm text-base-content/60">
-          Add some products to get started.
-        </p>
+        <p className="text-sm text-base-content/60">{t("cart.addToStart")}</p>
       </div>
     );
   }
@@ -58,7 +61,6 @@ const CartContext = () => {
           key={index}
           className="flex border border-base-200 rounded-xl shadow-sm overflow-hidden"
         >
-          {/* Image - fixed width, full height of the card */}
           <div className="w-[120px] flex-shrink-0">
             <img
               src={cartProduct.image}
@@ -67,18 +69,20 @@ const CartContext = () => {
             />
           </div>
 
-          {/* Info section */}
           <div className="flex-1 p-4 flex flex-col justify-between">
             <div className="flex justify-between items-start">
               <div>
                 <h3 className="text-base font-semibold">{cartProduct.name}</h3>
                 <div className="mt-2 text-sm text-base-content/70 space-y-1">
-                  <p>Size: {cartProduct.size}</p>
-                  <p>Color: {cartProduct.color}</p>
+                  <p>
+                    {t("cart.size")}: {cartProduct.size}
+                  </p>
+                  <p>
+                    {t("cart.color")}: {cartProduct.color}
+                  </p>
                 </div>
               </div>
 
-              {/* Price & Delete */}
               <div className="text-right">
                 <p className="text-sm font-bold">
                   ${cartProduct.priceAtPurchaseTime}
@@ -101,7 +105,6 @@ const CartContext = () => {
               </div>
             </div>
 
-            {/* Quantity */}
             <div className="flex items-center gap-2 mt-4">
               <button
                 className={`btn btn-xs btn-outline ${

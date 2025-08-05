@@ -1,10 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import useAuthUser from "../store/useAuthUser";
 import useCart from "../store/useCart";
 
 const Login = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const isLogging = useAuthUser((state) => state.isLogging);
   const login = useAuthUser((state) => state.login);
@@ -39,14 +41,12 @@ const Login = () => {
           transition={{ duration: 0.6 }}
           className="lg:w-1/2 text-center lg:text-left"
         >
-          <h1 className="text-5xl font-bold mb-6">Welcome Back! 👋</h1>
+          <h1 className="text-5xl font-bold mb-6">{t("login.title")}</h1>
           <p className="text-lg text-gray-600 leading-relaxed">
-            Step into a world of style and comfort. Whether you're dressing for
-            a night out or a cozy evening in, our handpicked collection brings
-            the best of fashion to your doorstep.
+            {t("login.subtitle1")}
             <br />
             <span className="font-semibold text-gray-800">
-              Sign in and make your wardrobe shine.
+              {t("login.subtitle2")}
             </span>
           </p>
         </motion.div>
@@ -59,10 +59,12 @@ const Login = () => {
           className="card bg-base-100 w-full lg:w-1/2 shadow-2xl"
         >
           <div className="card-body">
-            <h2 className="text-2xl font-bold mb-4">Login to your account</h2>
+            <h2 className="text-2xl font-bold mb-4">{t("login.formTitle")}</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label className="label font-semibold">Email</label>
+                <label className="label font-semibold">
+                  {t("login.email")}
+                </label>
                 <input
                   type="email"
                   className="input input-bordered w-full"
@@ -73,11 +75,13 @@ const Login = () => {
                 />
               </div>
               <div className="mb-4">
-                <label className="label font-semibold">Password</label>
+                <label className="label font-semibold">
+                  {t("login.password")}
+                </label>
                 <input
                   type="password"
                   className="input input-bordered w-full"
-                  placeholder="Password"
+                  placeholder={t("login.passwordPlaceholder")}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -86,12 +90,12 @@ const Login = () => {
 
               <div className="mt-4 text-center text-sm text-gray-600 flex items-center justify-center gap-1">
                 <span>
-                  Don’t have an account?{" "}
+                  {t("login.noAccount")}{" "}
                   <Link
                     to="/signup"
                     className="text-blue-600 hover:underline font-medium"
                   >
-                    Sign up
+                    {t("login.signUp")}
                   </Link>
                 </span>
               </div>
@@ -102,7 +106,7 @@ const Login = () => {
                 }`}
                 disabled={isLogging}
               >
-                Login
+                {t("login.loginButton")}
               </button>
             </form>
           </div>

@@ -3,70 +3,72 @@ import { IoLogoInstagram } from "react-icons/io";
 import { FaFacebook } from "react-icons/fa";
 import { RiTwitterXLine } from "react-icons/ri";
 import { FiPhoneCall } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <>
       <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
-        <form aria-label="Newsletter Subscription">
-          <h6 className="footer-title">Newsletter</h6>
+        <form aria-label={t("footer.newsletter.ariaLabel")}>
+          <h6 className="footer-title">{t("footer.newsletter.title")}</h6>
           <fieldset className="w-80">
             <label className="block mb-2">
-              Be the first to hear about new products, exclusive events, and
-              online offers.
+              {t("footer.newsletter.description")}
             </label>
             <div className="join">
               <input
                 type="email"
-                placeholder="username@site.com"
+                placeholder="example@gmail.com"
                 className="input input-bordered join-item focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
-                aria-label="Email address"
+                aria-label={t("footer.newsletter.emailAria")}
               />
               <button
                 className="btn btn-primary join-item"
                 type="submit"
-                aria-label="Subscribe to newsletter"
+                aria-label={t("footer.newsletter.subscribeAria")}
               >
-                Subscribe
+                {t("footer.newsletter.subscribe")}
               </button>
             </div>
           </fieldset>
         </form>
 
-        <nav aria-label="Shop Links">
-          <h6 className="footer-title">Shop</h6>
+        <nav aria-label={t("footer.shop.ariaLabel")}>
+          <h6 className="footer-title">{t("footer.shop.title")}</h6>
           <Link className="hover:text-gray-500 transition-colors" to="#">
-            Men's Top Wear
+            {t("footer.shop.menTop")}
           </Link>
           <Link className="hover:text-gray-500 transition-colors" to="#">
-            Women's Top Wear
+            {t("footer.shop.womenTop")}
           </Link>
           <Link className="hover:text-gray-500 transition-colors" to="#">
-            Men's Bottom Wear
+            {t("footer.shop.menBottom")}
           </Link>
           <Link className="hover:text-gray-500 transition-colors" to="#">
-            Women's Bottom Wear
-          </Link>
-        </nav>
-
-        <nav aria-label="Support Links">
-          <h6 className="footer-title">Support</h6>
-          <Link className="hover:text-gray-500 transition-colors" to="#">
-            About us
-          </Link>
-          <Link className="hover:text-gray-500 transition-colors" to="#">
-            Contact us
-          </Link>
-          <Link className="hover:text-gray-500 transition-colors" to="#">
-            FAQs
-          </Link>
-          <Link className="hover:text-gray-500 transition-colors" to="#">
-            Features
+            {t("footer.shop.womenBottom")}
           </Link>
         </nav>
 
-        <nav aria-label="Follow us on social media">
-          <h6 className="footer-title">Follow us</h6>
+        <nav aria-label={t("footer.support.ariaLabel")}>
+          <h6 className="footer-title">{t("footer.support.title")}</h6>
+          <Link className="hover:text-gray-500 transition-colors" to="#">
+            {t("footer.support.about")}
+          </Link>
+          <Link className="hover:text-gray-500 transition-colors" to="#">
+            {t("footer.support.contact")}
+          </Link>
+          <Link className="hover:text-gray-500 transition-colors" to="#">
+            {t("footer.support.faqs")}
+          </Link>
+          <Link className="hover:text-gray-500 transition-colors" to="#">
+            {t("footer.support.features")}
+          </Link>
+        </nav>
+
+        <nav aria-label={t("footer.follow.ariaLabel")}>
+          <h6 className="footer-title">{t("footer.follow.title")}</h6>
           <div className="flex items-center space-x-4 mb-6">
             <a
               href="https://facebook.com"
@@ -96,13 +98,15 @@ const Footer = () => {
               <RiTwitterXLine size={28} />
             </a>
           </div>
-          <p className="text-gray-500">Call Us</p>
+          <p className="text-gray-500">{t("footer.follow.callUs")}</p>
           <p>
             <FiPhoneCall className="inline-block mr-2" aria-hidden="true" />
             <a
               href="tel:+2010111213014"
               className="hover:text-gray-300"
-              aria-label="Call us on 010111213014"
+              aria-label={t("footer.follow.callNumberAria", {
+                number: "010111213014",
+              })}
             >
               010111213014
             </a>
@@ -112,7 +116,7 @@ const Footer = () => {
 
       <footer className="footer sm:footer-horizontal footer-center bg-base-300 text-base-content p-4">
         <aside>
-          <p>Copyright © {new Date().getFullYear()} - All rights reserved</p>
+          <p>{t("footer.copyright", { year: new Date().getFullYear() })}</p>
         </aside>
       </footer>
     </>

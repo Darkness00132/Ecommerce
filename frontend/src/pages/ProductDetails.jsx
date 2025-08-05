@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { toast } from "sonner";
-import ProductsGrid from "./ProductsGrid";
 import { useQuery } from "@tanstack/react-query";
-import { useLocation, useParams } from "react-router-dom";
-import axiosInstance from "../../axiosInstance/axiosInstance";
-import ProductDetailsSkeleton from "../skeletons/ProductDetailsSkeleton";
-import useCart from "../../store/useCart.js";
+import { useParams } from "react-router-dom";
+import MetaHelmet from "../components/common/MetaHelmet";
+import ProductsGrid from "../components/products/ProductsGrid";
+import axiosInstance from "../axiosInstance/axiosInstance";
+import ProductDetailsSkeleton from "../components/skeletons/ProductDetailsSkeleton";
+import useCart from "../store/useCart";
+import { useTranslation } from "react-i18next";
 
 const ProductDetails = ({ product }) => {
-  const location = useLocation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === "ar";
   const [mainImage, setMainImage] = useState(null);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
@@ -52,7 +54,7 @@ const ProductDetails = ({ product }) => {
 
   async function handleAddToCart() {
     if (!selectedColor || !selectedSize) {
-      toast.error("Please select a size and color before adding to cart.");
+      toast.error(t("productDetails.selectColorSize"));
       return;
     }
     await addToCart({
@@ -74,62 +76,27 @@ const ProductDetails = ({ product }) => {
 
   return (
     <>
-      <Helmet>
-        <link
-          rel="canonical"
-          href={`${window.location.origin}${location.pathname}`}
-        />
-        <title>{selectedProduct?.metaTitle || selectedProduct.name}</title>
-        <meta
-          name="description"
-          content={
-            selectedProduct?.metaDescription ||
-            selectedProduct.description.slice(0, 150)
-          }
-        />
-        <meta
-          property="og:title"
-          content={selectedProduct?.metaTitle || selectedProduct.name}
-        />
-        <meta
-          property="og:description"
-          content={
-            selectedProduct?.metaDescription ||
-            selectedProduct.description.slice(0, 150)
-          }
-        />
-        <meta property="og:image" content={selectedProduct.images[0]?.url} />
-        <meta property="og:type" content="product" />
-        <meta property="og:url" content={window.location.href} />
-        <meta property="og:site_name" content="Lacoste E-commerce" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content={selectedProduct?.metaTitle || selectedProduct.name}
-        />
-        <meta
-          name="twitter:description"
-          content={
-            selectedProduct?.metaDescription ||
-            selectedProduct.description.slice(0, 150)
-          }
-        />
-        <meta name="twitter:image" content={selectedProduct.images[0]?.url} />
-        <meta name="twitter:url" content={window.location.href} />
-      </Helmet>
-
+      <MetaHelmet item={selectedProduct} />
       <div className="p-4 sm:p-6">
         <div className="max-w-6xl mx-auto p-4 sm:p-8 rounded-lg">
-          <div className="flex flex-col md:flex-row">
+          <div
+            className={`flex flex-col md:flex-row gap-10 ${
+              isRTL ? "md:flex-row-reverse" : ""
+            }`}
+          >
             {/* Thumbnails */}
-            <div className="hidden md:flex flex-col space-y-4 mr-6">
+            <div
+              className={`hidden md:flex flex-col space-y-4 ${
+                isRTL ? "ml-6" : "mr-6"
+              }`}
+            >
               {selectedProduct.images.map((image, index) => (
                 <img
                   key={index}
                   src={image.url}
                   alt={image.altText || `Thumbnail ${index}`}
                   onClick={() => setMainImage(image.url)}
-                  className={`w-20 h-20 object-cover rounded-lg cursor-pointer border-2 ${
+                  className={`w-20 h-20 object-cover rounded-lg cursor-pointer border-2 transition-all ${
                     mainImage === image.url
                       ? "border-neutral shadow-md scale-105"
                       : "border-transparent"
@@ -146,7 +113,11 @@ const ProductDetails = ({ product }) => {
                 className="w-full h-auto object-cover rounded-lg mb-4"
               />
               {hasDiscount && (
-                <span className="absolute top-3 left-3 bg-red-600 text-white text-sm font-semibold px-3 py-1 rounded-lg shadow-lg z-10">
+                <span
+                  className={`absolute top-3 ${
+                    isRTL ? "right-3" : "left-3"
+                  } bg-red-600 text-white text-sm font-semibold px-3 py-1 rounded-lg shadow-lg z-10`}
+                >
                   -{discountPercent}%
                 </span>
               )}
@@ -167,12 +138,17 @@ const ProductDetails = ({ product }) => {
               </div>
             </div>
 
-            {/* Right side */}
-            <div className="md:w-1/2 md:ml-10 mt-6 md:mt-0 space-y-4">
+            {/* Info Section */}
+            <div
+              className={`md:w-1/2 mt-6 md:mt-0 space-y-4 ${
+                isRTL ? "md:mr-6" : "md:ml-6"
+              }`}
+            >
               <h1 className="text-2xl md:text-3xl font-semibold">
                 {selectedProduct.name}
               </h1>
 
+              {/* Price */}
               <div className="flex items-center gap-2">
                 {hasDiscount ? (
                   <>
@@ -189,20 +165,24 @@ const ProductDetails = ({ product }) => {
                 )}
               </div>
 
+              {/* Stock warning */}
               {countInStock <= 5 && (
                 <p className="text-sm text-red-600 font-medium">
-                  Only {countInStock} left in stock!
+                  {t("productDetails.onlyLeft", { count: countInStock })}
                 </p>
               )}
 
-              <p className="text-gray-700 break-words whitespace-pre-line">
+              {/* Description */}
+              <p className="text-gray-700 whitespace-pre-line break-words">
                 {selectedProduct.description}
               </p>
 
               {/* Color */}
               <div>
-                <p className="font-medium text-gray-700 mb-1">Color:</p>
-                <div className="flex gap-2">
+                <p className="font-medium text-gray-700 mb-1">
+                  {t("productDetails.color")}:
+                </p>
+                <div className="flex flex-wrap gap-2">
                   {selectedProduct.colors.map((color) => (
                     <button
                       key={color}
@@ -217,15 +197,17 @@ const ProductDetails = ({ product }) => {
                         filter: "brightness(0.5)",
                       }}
                       title={color}
-                    ></button>
+                    />
                   ))}
                 </div>
               </div>
 
               {/* Size */}
               <div>
-                <p className="font-medium text-gray-700 mb-1">Size:</p>
-                <div className="flex gap-2">
+                <p className="font-medium text-gray-700 mb-1">
+                  {t("productDetails.size")}:
+                </p>
+                <div className="flex gap-2 flex-wrap">
                   {selectedProduct.sizes.map((size) => (
                     <button
                       key={size}
@@ -244,20 +226,20 @@ const ProductDetails = ({ product }) => {
 
               {/* Quantity */}
               <div>
-                <p className="font-medium text-gray-700 mb-1">Quantity:</p>
+                <p className="font-medium text-gray-700 mb-1">
+                  {t("productDetails.quantity")}:
+                </p>
                 <div className="flex items-center gap-4">
                   <button
                     className="btn btn-sm"
-                    onClick={() =>
-                      quantity > 1 && setQuantity((prev) => prev - 1)
-                    }
+                    onClick={() => quantity > 1 && setQuantity((q) => q - 1)}
                   >
                     -
                   </button>
                   <span>{quantity}</span>
                   <button
                     className="btn btn-sm"
-                    onClick={() => setQuantity((prev) => prev + 1)}
+                    onClick={() => setQuantity((q) => q + 1)}
                   >
                     +
                   </button>
@@ -272,20 +254,28 @@ const ProductDetails = ({ product }) => {
                 }`}
                 disabled={isAddingProduct}
               >
-                {isAddingProduct ? "Adding..." : "ADD TO CART"}
+                {isAddingProduct
+                  ? t("productDetails.adding")
+                  : t("productDetails.addToCart")}
               </button>
 
               {/* Characteristics */}
               <div className="mt-8 text-gray-700">
-                <h3 className="text-lg font-semibold mb-2">Product Details:</h3>
+                <h3 className="text-lg font-semibold mb-2">
+                  {t("productDetails.details")}:
+                </h3>
                 <table className="table text-sm">
                   <tbody>
                     <tr>
-                      <td className="font-medium">Brand</td>
+                      <td className="font-medium">
+                        {t("productDetails.brand")}
+                      </td>
                       <td>{selectedProduct.brand}</td>
                     </tr>
                     <tr>
-                      <td className="font-medium">Material</td>
+                      <td className="font-medium">
+                        {t("productDetails.material")}
+                      </td>
                       <td>{selectedProduct.material}</td>
                     </tr>
                   </tbody>
@@ -294,10 +284,10 @@ const ProductDetails = ({ product }) => {
             </div>
           </div>
 
-          {/* Similar products */}
+          {/* Similar Products */}
           <div className="mt-20">
             <h2 className="text-2xl text-center font-medium mb-4">
-              You May Also Like
+              {t("productDetails.similar")}
             </h2>
             <ProductsGrid products={similarProducts} />
           </div>

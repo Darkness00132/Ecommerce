@@ -1,10 +1,13 @@
 import { format } from "date-fns";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import axiosInstance from "../axiosInstance/axiosInstance";
 
 const OrderConfirmation = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
+
   const {
     data: order,
     isLoading,
@@ -22,18 +25,18 @@ const OrderConfirmation = () => {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center text-center px-4">
         <h2 className="text-2xl font-semibold text-red-500 mb-2">
-          Something went wrong
+          {t("order.errorTitle")}
         </h2>
         <p className="text-sm text-gray-600 mb-4">
           {error?.response?.data?.message ||
             error.message ||
-            "Unable to load order details."}
+            t("order.errorMessage")}
         </p>
         <button
           className="btn btn-sm btn-primary"
           onClick={() => window.location.reload()}
         >
-          Try Again
+          {t("order.tryAgain")}
         </button>
       </div>
     );
@@ -68,21 +71,19 @@ const OrderConfirmation = () => {
       <div className="max-w-4xl mx-auto bg-base-100 shadow-lg rounded-2xl p-8 space-y-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-green-500">
-            Thank you for your order!
+            {t("order.thankYou")}
           </h1>
-          <p className="text-sm text-gray-500 mt-2">
-            We’ve received your order and it’s being processed.
-          </p>
+          <p className="text-sm text-gray-500 mt-2">{t("order.processing")}</p>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <div>
-            <h2 className="text-lg font-semibold">Order Info</h2>
+            <h2 className="text-lg font-semibold">{t("order.infoTitle")}</h2>
             <p className="text-sm text-gray-600 mt-1">
-              Order ID: <span className="font-medium">#{_id}</span>
+              {t("order.orderId")}: <span className="font-medium">#{_id}</span>
             </p>
             <p className="text-sm text-gray-600">
-              Date:{" "}
+              {t("order.date")}:{" "}
               <span className="font-medium">
                 {format(new Date(createdAt), "yyyy-MM-dd")}
               </span>
@@ -90,7 +91,9 @@ const OrderConfirmation = () => {
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold">Shipping Address</h2>
+            <h2 className="text-lg font-semibold">
+              {t("order.shippingTitle")}
+            </h2>
             <p className="text-sm text-gray-600 mt-1">
               {shippingAddress.address}
             </p>
@@ -100,12 +103,12 @@ const OrderConfirmation = () => {
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold">Payment Method</h2>
+            <h2 className="text-lg font-semibold">{t("order.paymentTitle")}</h2>
             <div className="flex items-center gap-2 mt-1">
               <p className="text-sm text-gray-600">{paymentMethod}</p>
               {status === "Paid" && (
                 <span className="badge badge-success text-xs px-2 py-1">
-                  Paid
+                  {t("order.paid")}
                 </span>
               )}
             </div>
@@ -113,7 +116,9 @@ const OrderConfirmation = () => {
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
+          <h2 className="text-lg font-semibold mb-4">
+            {t("order.summaryTitle")}
+          </h2>
           <div className="space-y-4">
             {orderItems.map((item) => (
               <div
@@ -128,16 +133,18 @@ const OrderConfirmation = () => {
                 <div className="flex flex-col gap-1">
                   <span className="font-semibold">{item.name}</span>
                   <span className="text-sm text-gray-500">
-                    Size: {item.size} | Color: {item.color}
+                    {t("order.size")}: {item.size} | {t("order.color")}:{" "}
+                    {item.color}
                   </span>
                   <span className="text-sm text-gray-500">
-                    Quantity: {item.quantity}
+                    {t("order.quantity")}: {item.quantity}
                   </span>
                   <span className="text-sm text-gray-500">
-                    Price per unit: ${item.priceAtPurchaseTime}
+                    {t("order.unitPrice")}: ${item.priceAtPurchaseTime}
                   </span>
                   <span className="text-sm font-bold text-primary">
-                    Total: ${item.priceAtPurchaseTime * item.quantity}
+                    {t("order.total")}: $
+                    {item.priceAtPurchaseTime * item.quantity}
                   </span>
                 </div>
               </div>
@@ -147,20 +154,20 @@ const OrderConfirmation = () => {
 
         <div className="text-sm space-y-2 border-t pt-4">
           <div className="flex justify-between">
-            <span className="font-medium">Subtotal:</span>
+            <span className="font-medium">{t("order.subtotal")}:</span>
             <span>${subtotal}</span>
           </div>
 
           <div className="flex justify-between">
-            <span className="font-medium">Shipping:</span>
+            <span className="font-medium">{t("order.shipping")}:</span>
             <span>${shipping}</span>
           </div>
           <div className="flex justify-between">
-            <span className="font-medium">Discount:</span>
+            <span className="font-medium">{t("order.discount")}:</span>
             <span>${discount}</span>
           </div>
           <div className="flex justify-between text-lg font-bold border-t pt-2">
-            <span>Total:</span>
+            <span>{t("order.total")}:</span>
             <span>${totalPrice}</span>
           </div>
         </div>

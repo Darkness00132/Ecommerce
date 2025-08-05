@@ -1,0 +1,261 @@
+{
+  "menu": {
+    "section1": "Men",
+    "section2": "Woman",
+    "section3": "Top Wear",
+    "section4": "Bottom Wear"
+  },
+  "hero": {
+    "title": "Adventure Awaits",
+    "descrition": "Discover premium gear for your next journey — from coastal escapes to mountain hikes."
+  },
+  "button": {
+    "shop now": "Shop Now"
+  },
+  "genderSection": {
+    "womenTitle": "Women's Collection",
+    "menTitle": "Men's Collection",
+    "shopNow": "Shop Now",
+    "womenAlt": "Women's Collection",
+    "menAlt": "Men's Collection"
+  },
+  "featuredCollection": {
+    "subtitle": "Effortless Comfort & Timeless Style",
+    "title": "Clothing Designed to Elevate Your Everyday",
+    "description": "Discover a collection where comfort meets confidence. Our apparel is crafted using premium fabrics, tailored fits, and minimalist design — so you can look and feel your best whether you're at work, at home, or on the go. Explore everyday essentials made to last.",
+    "button": "Shop Now",
+    "imageAlt": "Featured Collection"
+  },
+  "features": {
+    "freeShipping": {
+      "title": "Free International Shipping",
+      "description": "On all orders over $100.00"
+    },
+    "returnPolicy": {
+      "title": "15 Days Return",
+      "description": "Money back guarantee"
+    },
+    "secureCheckout": {
+      "title": "Secure Checkout",
+      "description": "100% secured checkout process"
+    }
+  },
+  "Filters": "Filters",
+  "Apply Filters": "Apply Filters",
+  "Price Range": "Price Range",
+  "filter": {
+    "Category": "Category",
+    "Gender": "Gender",
+    "Size": "Size",
+    "Colors": "Colors",
+    "Material": "Material",
+    "Brand": "Brand",
+
+    "Top Wear": "Top Wear",
+    "Bottom Wear": "Bottom Wear",
+
+    "Men": "Men",
+    "Woman": "Woman",
+
+    "Black": "Black",
+    "White": "White",
+    "Navy": "Navy",
+    "Gray": "Gray",
+    "Beige": "Beige",
+    "Olive": "Olive",
+    "Brown": "Brown",
+    "Burgundy": "Burgundy",
+
+    "Cotton": "Cotton",
+    "Wool": "Wool",
+    "Denim": "Denim",
+    "Polyester": "Polyester",
+    "Silk": "Silk",
+    "Linen": "Linen",
+    "Leather": "Leather",
+    "Viscose": "Viscose"
+  },
+  "footer": {
+    "newsletter": {
+      "ariaLabel": "Newsletter Subscription",
+      "title": "Newsletter",
+      "description": "Be the first to hear about new products, exclusive events, and online offers.",
+      "emailAria": "Email address",
+      "subscribe": "Subscribe",
+      "subscribeAria": "Subscribe to newsletter"
+    },
+    "shop": {
+      "ariaLabel": "Shop Links",
+      "title": "Shop",
+      "menTop": "Men's Top Wear",
+      "womenTop": "Women's Top Wear",
+      "menBottom": "Men's Bottom Wear",
+      "womenBottom": "Women's Bottom Wear"
+    },
+    "support": {
+      "ariaLabel": "Support Links",
+      "title": "Support",
+      "about": "About us",
+      "contact": "Contact us",
+      "faqs": "FAQs",
+      "features": "Features"
+    },
+    "follow": {
+      "ariaLabel": "Follow us on social media",
+      "title": "Follow us",
+      "callUs": "Call Us",
+      "callNumberAria": "Call us on {{number}}"
+    },
+    "copyright": "Copyright © {{year}} - All rights reserved"
+  },
+  "sort": {
+    "label": "Sort by",
+    "default": "Default",
+    "priceASC": "Price: Low to High",
+    "priceDESC": "Price: High to Low",
+    "popularity": "Most Popular"
+  },
+  "collection": {
+    "title": "All Collection",
+    "filters": "Filters",
+    "noProducts": "No products found.",
+    "fetchError": "Failed to load products"
+  },
+  "productDetails": {
+    "selectColorSize": "Please select a size and color before adding to cart.",
+    "onlyLeft": "Only {{count}} left in stock!",
+    "color": "Color",
+    "size": "Size",
+    "quantity": "Quantity",
+    "adding": "Adding...",
+    "addToCart": "Add to Cart",
+    "details": "Product Details",
+    "brand": "Brand",
+    "material": "Material",
+    "similar": "You May Also Like"
+  },
+  "login": {
+    "title": "Welcome Back! 👋",
+    "subtitle1": "Step into a world of style and comfort. Whether you're dressing for a night out or a cozy evening in, our handpicked collection brings the best of fashion to your doorstep.",
+    "subtitle2": "Sign in and make your wardrobe shine.",
+    "formTitle": "Login to your account",
+    "email": "Email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "noAccount": "Don’t have an account?",
+    "signUp": "Sign up",
+    "loginButton": "Login"
+  },
+  "signup": {
+    "title": "Join Us Today!",
+    "subtitle1": "Explore exclusive styles and fresh arrivals. Our store brings you the latest in fashion.",
+    "subtitle2": "Create an account and start redefining your wardrobe.",
+    "formTitle": "Create a new account",
+    "name": "Name",
+    "namePlaceholder": "Full Name",
+    "email": "Email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "haveAccount": "Already have an account?",
+    "signupButton": "Sign Up"
+  },
+  "newArrivals": {
+    "title": "Explore New Arrivals",
+    "subtitle": "Discover the latest trends, fresh styles, and must-have pieces handpicked just for you.",
+    "loading": "Loading..."
+  },
+  "best seller": "Best Seller",
+  "cartDrawer": {
+    "title": "Your Cart",
+    "checkoutButton": "Checkout",
+    "note": "Shipping, taxes, and discounts calculated at checkout."
+  },
+  "cart": {
+    "loading": "Loading your cart...",
+    "empty": "Your cart is empty",
+    "addToStart": "Add some products to get started.",
+    "size": "Size",
+    "color": "Color",
+    "error": "Failed to load your cart."
+  },
+  "checkout": {
+    "title": "Checkout",
+    "name": "Full Name",
+    "address": "Address",
+    "city": "City",
+    "postolCode": "Postal Code",
+    "country": "Country",
+    "phone": "Phone",
+    "namePlaceholder": "John Doe",
+    "addressPlaceholder": "123 Main St",
+    "cityPlaceholder": "Cairo",
+    "postolCodePlaceholder": "12345",
+    "countryPlaceholder": "Egypt",
+    "phonePlaceholder": "+20123456789",
+    "button": "Continue to Payment",
+    "errors": {
+      "name": "Please enter your full name.",
+      "address": "Please enter your address.",
+      "city": "Please enter your city.",
+      "postal": "Please enter a valid postal code.",
+      "country": "Please enter your country.",
+      "phone": "Please enter a valid phone number."
+    },
+    "paymentFailed": "Payment failed. Please try again or use a different method."
+  },
+  "orderSummary": {
+    "title": "Order Summary",
+    "size": "Size",
+    "color": "Color",
+    "pricePerUnit": "Price per unit",
+    "quantity": "Quantity",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping"
+  },
+  "notFound": {
+    "subtitle": "Oops! The page you're looking for doesn't exist.",
+    "button": "Go to Homepage"
+  },
+  "order": {
+    "receipt": "Order Receipt",
+    "id": "Order ID",
+    "createdAt": "Created At",
+    "shippingInfo": "Shipping Info",
+    "name": "Name",
+    "email": "Email",
+    "paymentMethod": "Payment Method",
+    "address": "Address",
+    "postal": "Postal",
+    "phone": "Phone",
+    "status": "Status",
+    "paidAt": "Paid At",
+    "delivered": "Delivered",
+    "notPaid": "Not Paid",
+    "notDelivered": "Not Delivered Yet",
+    "items": "Items",
+    "color": "Color",
+    "size": "Size",
+    "qty": "Qty",
+    "price": "Price",
+    "summary": "Summary",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "discount": "Discount",
+    "total": "Total",
+    "backToOrders": "← Back to Orders",
+    "failed": "Failed to load order",
+    "tryAgain": "Try Again"
+  },
+  "orders": {
+    "loading": "Loading...",
+    "noOrders": "You have no orders yet.",
+    "order": "Order",
+    "date": "Date",
+    "to": "To",
+    "items": "Items",
+    "total": "Total",
+    "paid": "Paid",
+    "pending": "Pending"
+  }
+}

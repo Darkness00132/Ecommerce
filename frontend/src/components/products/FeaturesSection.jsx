@@ -1,25 +1,28 @@
 import { HiOutlineCreditCard, HiShoppingBag } from "react-icons/hi";
 import { HiArrowPathRoundedSquare } from "react-icons/hi2";
-
-const features = [
-  {
-    icon: <HiShoppingBag size={32} />,
-    title: "Free International Shipping",
-    description: "On all orders over $100.00",
-  },
-  {
-    icon: <HiArrowPathRoundedSquare size={32} />,
-    title: "15 Days Return",
-    description: "Money back guarantee",
-  },
-  {
-    icon: <HiOutlineCreditCard size={32} />,
-    title: "Secure Checkout",
-    description: "100% secured checkout process",
-  },
-];
+import { useTranslation } from "react-i18next";
 
 const FeaturesSection = () => {
+  const { t } = useTranslation();
+
+  const features = [
+    {
+      icon: <HiShoppingBag size={32} />,
+      title: t("features.freeShipping.title"),
+      description: t("features.freeShipping.description"),
+    },
+    {
+      icon: <HiArrowPathRoundedSquare size={32} />,
+      title: t("features.returnPolicy.title"),
+      description: t("features.returnPolicy.description"),
+    },
+    {
+      icon: <HiOutlineCreditCard size={32} />,
+      title: t("features.secureCheckout.title"),
+      description: t("features.secureCheckout.description"),
+    },
+  ];
+
   return (
     <section className="py-16 px-4">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">

@@ -3,8 +3,10 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import useAuthUser from "../store/useAuthUser";
 import useCart from "../store/useCart";
+import { useTranslation } from "react-i18next";
 
 const Signup = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const isSigningup = useAuthUser((state) => state.isSigningup);
   const signup = useAuthUser((state) => state.signup);
@@ -40,13 +42,12 @@ const Signup = () => {
           transition={{ duration: 0.6 }}
           className="lg:w-1/2 text-center lg:text-left"
         >
-          <h1 className="text-5xl font-bold mb-6">Join Us Today!</h1>
+          <h1 className="text-5xl font-bold mb-6">{t("signup.title")}</h1>
           <p className="text-lg text-gray-600 leading-relaxed">
-            Explore exclusive styles, fresh arrivals, and unbeatable offers. Our
-            shop brings the latest trends right to your screen.
+            {t("signup.subtitle1")}
             <br />
             <span className="font-semibold text-gray-800">
-              Create an account and redefine your wardrobe.
+              {t("signup.subtitle2")}
             </span>
           </p>
         </motion.div>
@@ -59,15 +60,17 @@ const Signup = () => {
           className="card bg-base-100 w-full lg:w-1/2 shadow-2xl"
         >
           <div className="card-body">
-            <h2 className="text-2xl font-bold mb-4">Create an account</h2>
+            <h2 className="text-2xl font-bold mb-4">{t("signup.formTitle")}</h2>
             <form onSubmit={handleSubmit}>
               {/* Name */}
               <div className="mb-4">
-                <label className="label font-semibold">Name</label>
+                <label className="label font-semibold">
+                  {t("signup.name")}
+                </label>
                 <input
                   type="text"
                   className="input input-bordered w-full"
-                  placeholder="Full Name"
+                  placeholder={t("signup.namePlaceholder")}
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -76,7 +79,9 @@ const Signup = () => {
 
               {/* Email */}
               <div className="mb-4">
-                <label className="label font-semibold">Email</label>
+                <label className="label font-semibold">
+                  {t("signup.email")}
+                </label>
                 <input
                   type="email"
                   className="input input-bordered w-full"
@@ -89,11 +94,13 @@ const Signup = () => {
 
               {/* Password */}
               <div className="mb-4">
-                <label className="label font-semibold">Password</label>
+                <label className="label font-semibold">
+                  {t("signup.password")}
+                </label>
                 <input
                   type="password"
                   className="input input-bordered w-full"
-                  placeholder="Password"
+                  placeholder={t("signup.passwordPlaceholder")}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -105,14 +112,14 @@ const Signup = () => {
                   to="/login"
                   className="link link-hover text-sm text-blue-500"
                 >
-                  Already have an account?
+                  {t("signup.haveAccount")}
                 </Link>
               </div>
               <button
                 className="btn btn-neutral w-full mt-4"
                 disabled={isSigningup}
               >
-                Sign Up
+                {t("signup.signupButton")}
               </button>
             </form>
           </div>

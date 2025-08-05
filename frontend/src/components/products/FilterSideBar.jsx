@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const OPTIONS = {
   category: ["Top Wear", "Bottom Wear"],
@@ -37,6 +38,7 @@ const OPTIONS = {
 const FilterSideBar = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { t } = useTranslation();
 
   const [form, setForm] = useState({
     category: [],
@@ -81,7 +83,6 @@ const FilterSideBar = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const params = new URLSearchParams();
 
     for (const [key, value] of Object.entries(form)) {
@@ -95,9 +96,9 @@ const FilterSideBar = () => {
     navigate(`?${params.toString()}`);
   };
 
-  const renderCheckboxGroup = (label, type) => (
+  const renderCheckboxGroup = (labelKey, type, translate = true) => (
     <div className="mb-4">
-      <h3 className="font-bold mb-2">{label}</h3>
+      <h3 className="font-bold mb-2">{t(`filter.${labelKey}`)}</h3>
       <div className="flex flex-wrap gap-2">
         {OPTIONS[type].map((opt) => (
           <label key={opt} className="label cursor-pointer gap-2">
@@ -107,7 +108,9 @@ const FilterSideBar = () => {
               checked={form[type].includes(opt)}
               onChange={() => handleCheckboxChange(type, opt)}
             />
-            <span className="label-text">{opt}</span>
+            <span className="label-text">
+              {translate ? t(`filter.${opt}`) : opt}
+            </span>
           </label>
         ))}
       </div>
@@ -119,13 +122,14 @@ const FilterSideBar = () => {
       onSubmit={handleSubmit}
       className="p-4 w-72 bg-base-100 border border-base-300 rounded-lg shadow-md"
     >
-      <h2 className="text-xl font-bold mb-4">Filters</h2>
+      <h2 className="text-xl font-bold mb-4">{t("Filters")}</h2>
 
       {renderCheckboxGroup("Category", "category")}
       {renderCheckboxGroup("Gender", "gender")}
-      {renderCheckboxGroup("Size", "size")}
+      {renderCheckboxGroup("Size", "size", false)}
+
       <div className="mb-4">
-        <h3 className="font-bold mb-2">Colors: </h3>
+        <h3 className="font-bold mb-2">{t("filter.Colors")}</h3>
         <div className="flex flex-wrap gap-2">
           {OPTIONS["colors"].map((color) => {
             const isSelected = form["colors"].includes(color);
@@ -141,17 +145,18 @@ const FilterSideBar = () => {
                   backgroundColor: color.toLowerCase(),
                   filter: isSelected ? "brightness(0.8)" : "brightness(0.5)",
                 }}
-                title={color}
+                title={t(`filter.${color}`)}
               ></button>
             );
           })}
         </div>
       </div>
+
       {renderCheckboxGroup("Material", "material")}
-      {renderCheckboxGroup("Brand", "brand")}
+      {renderCheckboxGroup("Brand", "brand", false)}
 
       <div className="mb-5">
-        <h3 className="font-semibold mb-2">Price Range</h3>
+        <h3 className="font-semibold mb-2">{t("Price Range")}</h3>
         <div className="flex items-center justify-between text-sm mb-2">
           <span>${form.minPrice}</span>
           <span>${form.maxPrice}</span>
@@ -185,7 +190,7 @@ const FilterSideBar = () => {
       </div>
 
       <button type="submit" className="btn btn-primary w-full mb-8">
-        Apply Filters
+        {t("Apply Filters")}
       </button>
     </form>
   );

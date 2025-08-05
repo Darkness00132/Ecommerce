@@ -21,16 +21,23 @@ const OrderDetails = () => {
   } = useQuery({
     queryKey: ["order", id],
     queryFn: async () => {
-      const response = await axiosInstance.get("/orders/" + id);
-      return response.data.order;
+      const res = await axiosInstance.get("/orders/" + id);
+      return res.data.order;
     },
-    onError: async (e) => {
+    onError: (err) => {
       toast.error(
-        `Something went wrong: ${e?.response?.data?.message || e.message}`
+        `Something went wrong: ${err?.response?.data?.message || err.message}`
       );
-      console.log(e);
     },
   });
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <span className="loading loading-spinner text-primary loading-lg"></span>
+      </div>
+    );
+  }
 
   if (isError) {
     return (
@@ -53,14 +60,6 @@ const OrderDetails = () => {
     );
   }
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <span className="loading loading-spinner text-primary loading-lg"></span>
-      </div>
-    );
-  }
-
   const productTotal = order.orderItems.reduce(
     (acc, item) => acc + item.priceAtPurchaseTime * item.quantity,
     0
@@ -78,11 +77,11 @@ const OrderDetails = () => {
           Order ID: <span className="text-black font-mono">{order._id}</span>
         </p>
         <p className="text-gray-500">
-          Created At: {format(new Date(order.createdAt), "yyyy/M/d hh:mm a")}
+          Created At: {format(new Date(order.createdAt), "yyyy/MM/dd hh:mm a")}
         </p>
       </div>
 
-      {/* Customer & Shipping Info */}
+      {/* Shipping Info */}
       <div>
         <h2 className="font-semibold text-base mb-2">Shipping Info</h2>
         <div className="grid sm:grid-cols-2 gap-2">
@@ -121,8 +120,8 @@ const OrderDetails = () => {
             <strong>Paid At:</strong>{" "}
             {order.isPaid && order.paidAt ? (
               <span className="text-green-600 flex items-center gap-1">
-                <FaCheckCircle />{" "}
-                {format(new Date(order.paidAt), "yyyy/M/d hh:mm a")}
+                <FaCheckCircle />
+                {format(new Date(order.paidAt), "yyyy/MM/dd hh:mm a")}
               </span>
             ) : (
               <span className="text-red-600 flex items-center gap-1">
@@ -134,8 +133,8 @@ const OrderDetails = () => {
             <strong>Delivered:</strong>{" "}
             {order.isDelivered && order.deliveredAt ? (
               <span className="text-green-600 flex items-center gap-1">
-                <FaCheckCircle />{" "}
-                {format(new Date(order.deliveredAt), "yyyy-M-d / hh:mm a")}
+                <FaCheckCircle />
+                {format(new Date(order.deliveredAt), "yyyy/MM/dd hh:mm a")}
               </span>
             ) : (
               <span className="text-yellow-600 flex items-center gap-1">

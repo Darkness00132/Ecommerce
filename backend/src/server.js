@@ -58,15 +58,15 @@ app.use(
   helmet.hsts({ maxAge: 63072000, includeSubDomains: true, preload: true })
 );
 app.set("trust proxy", 1);
-app.use(
-  rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100,
-    message: "Too many requests, please try again later.",
-    standardHeaders: true,
-    legacyHeaders: false,
-  })
-);
+// app.use(
+//   rateLimit({
+//     windowMs: 15 * 60 * 1000,
+//     max: 100,
+//     message: "Too many requests, please try again later.",
+//     standardHeaders: true,
+//     legacyHeaders: false,
+//   })
+// );
 app.disable("x-powered-by");
 
 // MongoDB connection
@@ -124,5 +124,5 @@ app.use((err, req, res, next) => {
   });
 });
 
-module.exports = app;
-// app.listen(PORT);
+// module.exports = app;
+app.listen(PORT);

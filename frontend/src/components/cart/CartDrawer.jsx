@@ -1,9 +1,11 @@
 import { IoMdClose } from "react-icons/io";
-import CartContext from "../cart/CartContext";
+import CartContext from "./CartContext";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const CartDrawer = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className="drawer drawer-end z-50">
@@ -17,7 +19,9 @@ const CartDrawer = () => {
         <div className="w-[26rem] max-w-full h-full flex flex-col bg-base-100 text-base-content border-l border-base-300 shadow-xl">
           {/* Header with close icon */}
           <div className="flex justify-between items-center px-5 py-4 border-b border-base-200">
-            <h2 className="text-lg font-semibold tracking-tight">Your Cart</h2>
+            <h2 className="text-lg font-semibold tracking-tight">
+              {t("cartDrawer.title")}
+            </h2>
             <label htmlFor="cart-drawer" className="cursor-pointer">
               <IoMdClose
                 size={26}
@@ -40,10 +44,10 @@ const CartDrawer = () => {
                 navigate("/checkout");
               }}
             >
-              Checkout
+              {t("cartDrawer.checkoutButton")}
             </button>
             <p className="text-xs text-center text-base-content opacity-60 mt-2">
-              Shipping, taxes, and discounts calculated at checkout.
+              {t("cartDrawer.note")}
             </p>
           </div>
         </div>
