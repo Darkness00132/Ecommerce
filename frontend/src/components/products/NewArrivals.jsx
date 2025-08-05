@@ -55,7 +55,7 @@ const NewArrivals = () => {
         style={{ direction: isRTL ? "rtl" : "ltr" }}
         breakpoints={{
           0: {
-            slidesPerView: 2, // small screens
+            slidesPerView: 1, // small screens
           },
           768: {
             slidesPerView: 3, // medium screens
