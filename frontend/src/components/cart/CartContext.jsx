@@ -18,7 +18,7 @@ const CartContext = () => {
   const updateQuantity = useCart((state) => state.updateQuantity);
   const isAuth = useAuthUser((state) => state.isAuth);
 
-  const { isLoading } = useQuery({
+  const { isLoading, refetch } = useQuery({
     queryKey: ["cart", isAuth, guestID],
     queryFn: async () => {
       const response = await axiosInstance.get("/cart/?guestID=" + guestID);
@@ -33,6 +33,12 @@ const CartContext = () => {
     enabled: isAuth || typeof guestID === "string",
     retryDelay: 5000,
   });
+
+  useEffect(() => {
+    if (isAuth) {
+      refetch();
+    }
+  }, [isAuth]);
 
   if (isLoading) {
     return (
