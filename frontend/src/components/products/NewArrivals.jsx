@@ -57,7 +57,7 @@ const NewArrivals = () => {
           0: {
             slidesPerView: 1, // small screens
           },
-          450: {
+          500: {
             slidesPerView: 2,
           },
           768: {
