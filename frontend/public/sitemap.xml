@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://lacost-ecommerce.vercel.app/</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://lacost-ecommerce.vercel.app/collections?collenction=all&amp;gender=Men</loc>
+  </url>
+
+  <url>
+    <loc>https://lacost-ecommerce.vercel.app/collections?collenction=all&amp;gender=Woman</loc>
+  </url>
+
+  <url>
+    <loc>https://lacost-ecommerce.vercel.app/collections?collenction=all&amp;category=Top%20Wear</loc>
+  </url>
+
+  <url>
+    <loc>https://lacost-ecommerce.vercel.app/collections?collenction=all&amp;category=Bottom%20Wear</loc>
+  </url>
+
+  <url>
+    <loc>https://lacost-ecommerce.vercel.app/login</loc>
+  </url>
+
+  <url>
+    <loc>https://lacost-ecommerce.vercel.app/signup</loc>
+  </url>
+
+  <url>
+    <loc>https://lacost-ecommerce.vercel.app/checkout</loc>
+  </url>
+
+  <url>
+    <loc>https://lacost-ecommerce.vercel.app/orders</loc>
+  </url>
+
+</urlset>
