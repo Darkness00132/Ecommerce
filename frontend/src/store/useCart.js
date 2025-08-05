@@ -90,6 +90,19 @@ const useAuthUser = create(
           console.error("Merge error:", e?.response?.data || e.message);
         }
       },
+      isFetchingCart: false,
+      fetchCart: async (isAuth, guestID) => {
+        try {
+          set({ isFetchingCart: true });
+          const response = await axios.get("/cart/?guestID=" + guestID);
+          set({ cart: response.data.cart });
+        } catch (e) {
+          toast.error(e?.response?.data?.message || "Error loading cart");
+          console.error("Fetch cart error:", e?.response?.data || e.message);
+        } finally {
+          set({ isFetchingCart: false });
+        }
+      },
       clearCart: () => {
         set({ cart: null, guestID: null });
       },
