@@ -1,21 +1,8 @@
-import { useEffect } from "react";
 import AdminDrawer from "../admin/AdminDrawer";
 import AdminNavbar from "../admin/AdminNavbar";
-import useAuthUser from "../../store/useAuthUser";
-import { Outlet, useNavigate } from "react-router-dom";
-import { toast } from "sonner";
+import { Outlet } from "react-router-dom";
 
 const AdminLayout = () => {
-  const navigate = useNavigate();
-  const isAuth = useAuthUser((state) => state.isAuth);
-  const clearUser = useAuthUser((state) => state.clearUser);
-  useEffect(() => {
-    if (!isAuth) {
-      toast.info("Token expired login again");
-      clearUser();
-      navigate("/");
-    }
-  }, [isAuth]);
   return (
     <>
       <header>

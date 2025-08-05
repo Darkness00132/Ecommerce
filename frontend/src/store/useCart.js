@@ -96,7 +96,7 @@ const useAuthUser = create(
     }),
     {
       name: "cart-storage",
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => sessionStorage),
       partialize: (state) => ({
         guestID: state.guestID,
         cart: state.cart,
