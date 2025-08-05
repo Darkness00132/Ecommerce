@@ -31,6 +31,7 @@ const CartContext = () => {
       toast.error(e?.response?.data?.message || t("cart.error"));
     },
     enabled: isAuth || typeof guestID === "string",
+    retryDelay: 5000,
   });
 
   if (isLoading) {
