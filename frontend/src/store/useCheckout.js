@@ -1,8 +1,9 @@
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import axiosInstance from "../axiosInstance/axiosInstance";
 import { create } from "zustand";
+import i18n from "../i18n";
 
-const useCheckout = create((set, get) => ({
+const useCheckout = create((set) => ({
   checkoutID: null,
   isMakingCheckout: false,
 
@@ -18,8 +19,7 @@ const useCheckout = create((set, get) => ({
     } catch (err) {
       console.error("Checkout error:", err?.response?.data || err.message);
       toast.error(
-        err?.response?.data?.message ||
-          "Failed to start checkout. Please try again."
+        err?.response?.data?.message || i18n.t("useCheckout.failedStart")
       );
       return false;
     } finally {
@@ -33,12 +33,12 @@ const useCheckout = create((set, get) => ({
         paymentDetails,
         orderID,
       });
-      toast.success("Payment processed successfully 💳");
+      toast.success(i18n.t("useCheckout.paymentSuccess"));
       return true;
     } catch (err) {
       console.error("Payment error:", err?.response?.data || err.message);
       toast.error(
-        err?.response?.data?.message || "Payment failed. Please try again."
+        err?.response?.data?.message || i18n.t("useCheckout.paymentFailed")
       );
       return false;
     }
@@ -47,13 +47,12 @@ const useCheckout = create((set, get) => ({
   makeOrder: async (checkoutID) => {
     try {
       const res = await axiosInstance.post(`/checkout/${checkoutID}/finalize`);
-      toast.success("Order placed successfully 🎉");
+      toast.success(i18n.t("useCheckout.orderSuccess"));
       return res.data.orderID;
     } catch (err) {
       console.error("Order error:", err?.response?.data || err.message);
       toast.error(
-        err?.response?.data?.message ||
-          "Failed to place order. Please try again."
+        err?.response?.data?.message || i18n.t("useCheckout.orderFailed")
       );
       return null;
     }

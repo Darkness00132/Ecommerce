@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import MetaHelmet from "../components/common/MetaHelmet";
@@ -54,7 +54,7 @@ const ProductDetails = ({ product }) => {
 
   async function handleAddToCart() {
     if (!selectedColor || !selectedSize) {
-      toast.error(t("productDetails.selectColorSize"));
+      toast.warning(t("productDetails.selectColorSize"));
       return;
     }
     await addToCart({

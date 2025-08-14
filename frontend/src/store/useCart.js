@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import axiosInstance from "../axiosInstance/axiosInstance";
+import i18n from "../i18n";
 
 const useAuthUser = create(
   persist(
@@ -26,9 +27,9 @@ const useAuthUser = create(
           });
           const cart = response.data.cart;
           set({ cart, guestID: cart.guestID || guestID });
-          toast.success("Product added to cart!");
+          toast.success(i18n.t("useCart.add_success"));
         } catch (e) {
-          toast.error("Failed to add to cart.");
+          toast.error(i18n.t("useCart.add_fail"));
           console.error("Remove error:", e?.response?.data || e.message);
         } finally {
           set({ isAddingProduct: false });
@@ -48,7 +49,7 @@ const useAuthUser = create(
           const response = await axiosInstance.delete(`/cart/?${params}`);
           set({ cart: response.data.cart });
         } catch (e) {
-          toast.error("Failed to remove item. Please try again.");
+          toast.error(i18n.t("useCart.remove_fail"));
           console.error(
             "Remove product error:",
             e?.response?.data || e.message
@@ -72,7 +73,7 @@ const useAuthUser = create(
           const response = await axiosInstance.put(`/cart/?${params}`);
           set({ cart: response.data.cart });
         } catch (e) {
-          toast.error("Couldn't update quantity. Please try again.");
+          toast.error(i18n.t("useCart.update_fail"));
           console.error(
             "Update quantity error:",
             e?.response?.data || e.message

@@ -5,7 +5,7 @@ import useCart from "../../store/useCart";
 import useAuthUser from "../../store/useAuthUser";
 import { FiShoppingCart } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 const CartContext = () => {
   const { t } = useTranslation();

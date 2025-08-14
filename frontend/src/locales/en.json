@@ -263,5 +263,32 @@
     "total": "Total",
     "paid": "Paid",
     "pending": "Pending"
+  },
+  "useCheckout": {
+    "failedStart": "Failed to start checkout. Please try again.",
+    "paymentSuccess": "Payment processed successfully ",
+    "paymentFailed": "Payment failed. Please try again.",
+    "orderSuccess": "Order placed successfully",
+    "orderFailed": "Failed to place order. Please try again."
+  },
+  "useCart": {
+    "add_success": "Product added to cart!",
+    "add_fail": "Failed to add to cart.",
+    "remove_fail": "Failed to remove item. Please try again.",
+    "update_fail": "Couldn't update quantity. Please try again."
+  },
+  "auth": {
+    "signupSuccess": "Welcome aboard, {{name}}!",
+    "signupFailed": "Signup failed. Please try again.",
+    "loginSuccess": "Welcome back, {{name}}!",
+    "loginFailed": "Login failed. Please check your credentials.",
+    "logoutSuccess": "Logged out successfully.",
+    "logoutFailed": "Logout failed. Please try again.",
+    "addUserSuccess": "Added Successfully",
+    "addUserFailed": "Failed to add user try again later",
+    "updateUserSuccess": "Updated Successfully",
+    "updateUserFailed": "Failed to update user try again later",
+    "deleteUserSuccess": "Deleted Successfully",
+    "deleteUserFailed": "Failed to delete user try again later"
   }
 }

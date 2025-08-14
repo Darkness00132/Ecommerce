@@ -7,7 +7,7 @@ import {
   FaTimesCircle,
   FaExclamationCircle,
 } from "react-icons/fa";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 const OrderDetails = () => {
   const { id } = useParams();

@@ -1,6 +1,8 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Toaster } from "sonner";
 import { useEffect, lazy, Suspense } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axiosInstance from "./axiosInstance/axiosInstance";
 import UserLayout from "./components/layout/UserLayout";
 import Home from "./pages/Home";
@@ -27,6 +29,7 @@ const AdminProductDetails = lazy(() =>
 const AdminOrderDetails = lazy(() => import("./pages/admin/AdminOrderDetails"));
 
 function App() {
+  const { i18n } = useTranslation();
   useEffect(() => {
     const getCsrfToken = async () => {
       try {
@@ -44,16 +47,19 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Toaster
-        richColors
-        position="top-center"
-        expand={true}
-        toastOptions={{
-          duration: 2500,
-          style: {
-            fontSize: "1rem",
-          },
-        }}
+      <ToastContainer
+        position={i18n.language === "ar" ? "top-right" : "top-left"}
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={i18n.language === "ar"}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        toastClassName="rounded-xl shadow-lg p-0 lg:p-2 text-base lg:text-lg"
+        bodyClassName="px-4 py-3 font-medium lg:text-xl"
       />
       <Suspense
         fallback={<p className="p-10 text-center">Loading admin panel...</p>}

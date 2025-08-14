@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import PaypalButton from "../components/cart/PaypalButton";
 import useAuthUser from "../store/useAuthUser";
 import useCart from "../store/useCart.js";

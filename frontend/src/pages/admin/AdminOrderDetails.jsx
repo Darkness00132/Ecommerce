@@ -8,7 +8,7 @@ import { format } from "date-fns";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import axiosInstance from "../../axiosInstance/axiosInstance";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import { queryClient } from "../../main.jsx";
 
 const AdminOrderDetails = () => {

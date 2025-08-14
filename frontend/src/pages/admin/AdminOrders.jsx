@@ -3,7 +3,7 @@ import { FaSearch, FaEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "../../axiosInstance/axiosInstance";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 const AdminOrders = () => {
   const navigate = useNavigate();

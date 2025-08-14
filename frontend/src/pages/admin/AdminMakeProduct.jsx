@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import axiosInstance from "../../axiosInstance/axiosInstance.js";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 const AdminProductDetails = () => {
   const formRef = useRef();

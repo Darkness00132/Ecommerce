@@ -6,17 +6,44 @@ const crypto = require("crypto");
 let userController = {};
 
 userController.postSignup = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
-  const user = new User({ name, email, password });
+  const { name, email, googleId = null, password } = req.body;
+  let user;
+
+  if (googleId) {
+    // Prevent using same Google ID for multiple accounts
+    const existingGoogleUser = await User.findOne({ googleId });
+    if (existingGoogleUser) {
+      return res.status(400).json({
+        message: "This Google account is already linked with another user.",
+      });
+    }
+
+    // If email exists, just link Google ID to that account
+    user = await User.findOne({ email });
+
+    if (user) {
+      user.googleId = googleId;
+    } else {
+      // Create new user with Google ID
+      user = new User({ name, email, googleId, password });
+    }
+  } else {
+    // Normal signup
+    user = new User({ name, email, password });
+  }
+
   await user.save();
+
   const token = await user.generateAuthToken();
+
   res.cookie("jwt", token, {
     httpOnly: true,
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    secure: process.env.PRODUCTION === "true" ? true : false,
+    secure: process.env.PRODUCTION === "true",
     signed: true,
     sameSite: process.env.PRODUCTION === "true" ? "none" : "lax",
   });
+
   return res.status(201).json({ user });
 });
 
