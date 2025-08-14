@@ -1,10 +1,23 @@
+import { useTranslation } from "react-i18next";
+
 const ProductDetailsSkeleton = () => {
+  const { i18n } = useTranslation();
+  const isRTL = i18n.language === "ar";
+
   return (
     <div className="p-6">
       <div className="max-w-6xl mx-auto p-8 rounded-lg animate-pulse">
-        <div className="flex flex-col md:flex-row">
-          {/* Left Thumbnails */}
-          <div className="hidden md:flex flex-col space-y-4 mr-6">
+        <div
+          className={`flex flex-col md:flex-row ${
+            isRTL ? "md:flex-row-reverse" : ""
+          }`}
+        >
+          {/* Left Thumbnails (in RTL this will go right) */}
+          <div
+            className={`hidden md:flex flex-col space-y-4 ${
+              isRTL ? "ml-6" : "mr-6"
+            }`}
+          >
             {Array(4)
               .fill(0)
               .map((_, i) => (
@@ -16,7 +29,11 @@ const ProductDetailsSkeleton = () => {
           <div className="md:w-1/2">
             <div className="mb-4 h-[400px] bg-gray-200 rounded-lg" />
             {/* Mobile Thumbnails */}
-            <div className="md:hidden flex overscroll-x-scroll space-x-4 mb-4">
+            <div
+              className={`md:hidden flex overflow-x-scroll space-x-4 mb-4 ${
+                isRTL ? "flex-row-reverse space-x-reverse" : ""
+              }`}
+            >
               {Array(4)
                 .fill(0)
                 .map((_, i) => (
@@ -26,7 +43,9 @@ const ProductDetailsSkeleton = () => {
           </div>
 
           {/* Right Side Info */}
-          <div className="md:w-1/2 md:ml-10 space-y-4">
+          <div
+            className={`md:w-1/2 space-y-4 ${isRTL ? "md:mr-10" : "md:ml-10"}`}
+          >
             <div className="h-8 w-1/2 bg-gray-200 rounded" />
             <div className="h-6 w-1/4 bg-gray-200 rounded" />
             <div className="h-8 w-1/3 bg-gray-300 rounded" />
