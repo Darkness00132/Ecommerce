@@ -7,12 +7,13 @@ const ProductDetailsSkeleton = () => {
   return (
     <div className="p-6">
       <div className="max-w-6xl mx-auto p-8 rounded-lg animate-pulse">
+        {/* Main Layout */}
         <div
           className={`flex flex-col md:flex-row ${
             isRTL ? "md:flex-row-reverse" : ""
           }`}
         >
-          {/* Left Thumbnails (in RTL this will go right) */}
+          {/* Side Thumbnails */}
           <div
             className={`hidden md:flex flex-col space-y-4 ${
               isRTL ? "ml-6" : "mr-6"
@@ -30,8 +31,10 @@ const ProductDetailsSkeleton = () => {
             <div className="mb-4 h-[400px] bg-gray-200 rounded-lg" />
             {/* Mobile Thumbnails */}
             <div
-              className={`md:hidden flex overflow-x-scroll space-x-4 mb-4 ${
-                isRTL ? "flex-row-reverse space-x-reverse" : ""
+              className={`md:hidden flex overflow-x-scroll mb-4 ${
+                isRTL
+                  ? "flex-row-reverse space-x-reverse"
+                  : "flex-row space-x-4"
               }`}
             >
               {Array(4)
@@ -42,7 +45,7 @@ const ProductDetailsSkeleton = () => {
             </div>
           </div>
 
-          {/* Right Side Info */}
+          {/* Product Info */}
           <div
             className={`md:w-1/2 space-y-4 ${isRTL ? "md:mr-10" : "md:ml-10"}`}
           >
