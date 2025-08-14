@@ -4,7 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import axiosInstance from "../../axiosInstance/axiosInstance.js";
 import { useNavigate, useParams } from "react-router-dom";
 import { queryClient } from "../../main.jsx";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import useAuthUser from "../../store/useAuthUser.js";
 import { FaTrashAlt } from "react-icons/fa";
 

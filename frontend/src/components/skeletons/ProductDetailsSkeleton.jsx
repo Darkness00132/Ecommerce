@@ -5,11 +5,11 @@ const ProductDetailsSkeleton = () => {
   const isRTL = i18n.language === "ar";
 
   return (
-    <div className="p-6">
-      <div className="max-w-6xl mx-auto p-8 rounded-lg animate-pulse">
+    <div className="p-4 sm:p-6">
+      <div className="max-w-6xl mx-auto p-4 sm:p-8 rounded-lg animate-pulse">
         {/* Main Layout */}
         <div
-          className={`flex flex-col md:flex-row ${
+          className={`flex flex-col md:flex-row gap-10 ${
             isRTL ? "md:flex-row-reverse" : ""
           }`}
         >
@@ -27,11 +27,10 @@ const ProductDetailsSkeleton = () => {
           </div>
 
           {/* Main Image */}
-          <div className="md:w-1/2">
-            <div className="mb-4 h-[400px] bg-gray-200 rounded-lg" />
-            {/* Mobile Thumbnails */}
+          <div className="md:w-1/2 relative">
+            <div className="w-full h-[400px] bg-gray-200 rounded-lg mb-4" />
             <div
-              className={`md:hidden flex overflow-x-scroll mb-4 ${
+              className={`md:hidden flex overflow-x-auto mb-4 ${
                 isRTL
                   ? "flex-row-reverse space-x-4 space-x-reverse"
                   : "flex-row space-x-4"
@@ -43,12 +42,18 @@ const ProductDetailsSkeleton = () => {
                   <div key={i} className="w-20 h-20 bg-gray-200 rounded-lg" />
                 ))}
             </div>
+            {/* Discount badge */}
+            <div
+              className={`absolute top-3 ${
+                isRTL ? "right-3" : "left-3"
+              } w-16 h-6 bg-gray-300 rounded-lg`}
+            />
           </div>
 
-          {/* Right Side Info */}
+          {/* Info Section */}
           <div
-            className={`md:w-1/2 space-y-4 ${
-              isRTL ? "md:mr-10 text-right" : "md:ml-10 text-left"
+            className={`md:w-1/2 mt-6 md:mt-0 space-y-4 ${
+              isRTL ? "md:mr-6 text-right" : "md:ml-6 text-left"
             }`}
           >
             <div className="h-8 w-1/2 bg-gray-200 rounded" />
@@ -56,27 +61,27 @@ const ProductDetailsSkeleton = () => {
             <div className="h-8 w-1/3 bg-gray-300 rounded" />
             <div className="h-16 w-full bg-gray-200 rounded" />
 
-            {/* Colors */}
+            {/* Color selector */}
             <div>
-              <div className="h-4 w-20 bg-gray-300 rounded mb-2" />
+              <div className="h-4 w-20 bg-gray-300 rounded mb-1" />
               <div
-                className={`flex gap-2 ${
+                className={`flex flex-wrap gap-2 ${
                   isRTL ? "justify-end" : "justify-start"
                 }`}
               >
                 {Array(4)
                   .fill(0)
                   .map((_, i) => (
-                    <div key={i} className="w-8 h-8 rounded-full bg-gray-300" />
+                    <div key={i} className="w-8 h-8 bg-gray-300 rounded-full" />
                   ))}
               </div>
             </div>
 
-            {/* Sizes */}
+            {/* Size selector */}
             <div>
-              <div className="h-4 w-20 bg-gray-300 rounded mb-2" />
+              <div className="h-4 w-20 bg-gray-300 rounded mb-1" />
               <div
-                className={`flex gap-2 ${
+                className={`flex gap-2 flex-wrap ${
                   isRTL ? "justify-end" : "justify-start"
                 }`}
               >
@@ -90,7 +95,7 @@ const ProductDetailsSkeleton = () => {
 
             {/* Quantity */}
             <div>
-              <div className="h-4 w-20 bg-gray-300 rounded mb-2" />
+              <div className="h-4 w-20 bg-gray-300 rounded mb-1" />
               <div
                 className={`flex items-center gap-4 ${
                   isRTL ? "justify-end" : "justify-start"
@@ -102,10 +107,11 @@ const ProductDetailsSkeleton = () => {
               </div>
             </div>
 
+            {/* Add to Cart Button */}
             <div className="h-12 bg-gray-300 rounded w-full" />
 
-            {/* Characteristics */}
-            <div className="mt-10 space-y-2">
+            {/* Product Details Table */}
+            <div className="mt-8 space-y-2">
               <div className="h-6 w-1/3 bg-gray-300 rounded" />
               <div className="h-4 w-full bg-gray-200 rounded" />
               <div className="h-4 w-full bg-gray-200 rounded" />
@@ -113,7 +119,7 @@ const ProductDetailsSkeleton = () => {
           </div>
         </div>
 
-        {/* Related Products */}
+        {/* Similar Products */}
         <div className="mt-20">
           <div className="h-6 w-1/3 bg-gray-300 mx-auto mb-4 rounded" />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
