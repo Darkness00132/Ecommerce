@@ -16,7 +16,7 @@ const ProductDetailsSkeleton = () => {
           {/* Side Thumbnails */}
           <div
             className={`hidden md:flex flex-col space-y-4 ${
-              isRTL ? "ml-6" : "mr-6"
+              isRTL ? "md:ml-6" : "md:mr-6"
             }`}
           >
             {Array(4)
@@ -33,7 +33,7 @@ const ProductDetailsSkeleton = () => {
             <div
               className={`md:hidden flex overflow-x-scroll mb-4 ${
                 isRTL
-                  ? "flex-row-reverse space-x-reverse"
+                  ? "flex-row-reverse space-x-4 space-x-reverse"
                   : "flex-row space-x-4"
               }`}
             >
@@ -45,9 +45,11 @@ const ProductDetailsSkeleton = () => {
             </div>
           </div>
 
-          {/* Product Info */}
+          {/* Right Side Info */}
           <div
-            className={`md:w-1/2 space-y-4 ${isRTL ? "md:mr-10" : "md:ml-10"}`}
+            className={`md:w-1/2 space-y-4 ${
+              isRTL ? "md:mr-10 text-right" : "md:ml-10 text-left"
+            }`}
           >
             <div className="h-8 w-1/2 bg-gray-200 rounded" />
             <div className="h-6 w-1/4 bg-gray-200 rounded" />
@@ -57,7 +59,11 @@ const ProductDetailsSkeleton = () => {
             {/* Colors */}
             <div>
               <div className="h-4 w-20 bg-gray-300 rounded mb-2" />
-              <div className="flex gap-2">
+              <div
+                className={`flex gap-2 ${
+                  isRTL ? "justify-end" : "justify-start"
+                }`}
+              >
                 {Array(4)
                   .fill(0)
                   .map((_, i) => (
@@ -69,7 +75,11 @@ const ProductDetailsSkeleton = () => {
             {/* Sizes */}
             <div>
               <div className="h-4 w-20 bg-gray-300 rounded mb-2" />
-              <div className="flex gap-2">
+              <div
+                className={`flex gap-2 ${
+                  isRTL ? "justify-end" : "justify-start"
+                }`}
+              >
                 {Array(3)
                   .fill(0)
                   .map((_, i) => (
@@ -81,7 +91,11 @@ const ProductDetailsSkeleton = () => {
             {/* Quantity */}
             <div>
               <div className="h-4 w-20 bg-gray-300 rounded mb-2" />
-              <div className="flex items-center gap-4">
+              <div
+                className={`flex items-center gap-4 ${
+                  isRTL ? "justify-end" : "justify-start"
+                }`}
+              >
                 <div className="w-8 h-8 bg-gray-300 rounded" />
                 <div className="w-4 h-4 bg-gray-300 rounded" />
                 <div className="w-8 h-8 bg-gray-300 rounded" />
